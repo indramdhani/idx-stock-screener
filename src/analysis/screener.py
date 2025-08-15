@@ -525,3 +525,275 @@ class StockScreener:
             symbol=symbol,
             signal_type=signal_type,
             timestamp=datetime.now(),
+            entry_price=current_price,
+            entry_reasoning=reasoning,
+            risk_params=risk_params,
+            confidence_score=confidence_score,
+            risk_level=risk_level,
+            context=context,
+            status=SignalStatus.ACTIVE
+        )
+
+        # Add position sizing
+        signal.update_position_sizing(
+            account_balance,
+            self.config.risk_management.max_risk_per_trade
+        )
+
+        # Add tags based on conditions
+        signal = self._add_signal_tags(signal, conditions, indicators)
+
+        # Set expiration (intraday signals expire at market close)
+        if signal_type == SignalType.INTRADAY_REBOUND:
+            signal.expires_at = datetime.now().replace(hour=15, minute=0, second=0, microsecond=0)
+        else:
+            signal.expires_at = datetime.now() + timedelta(hours=18)  # Next morning
+
+        return signal
+
+    def _calculate_risk_parameters(
+        self,
+        stock_data: StockData,
+        signal_type: SignalType,
+        indicators: Dict
+    ) -> RiskParameters:
+        """Calculate risk parameters including stop loss and take profit levels."""
+
+        current_price = stock_data.current_price
+
+        # Get ATR for dynamic risk calculation
+        atr_value = 0.0
+        if 'atr' in indicators and 'current_atr' in indicators['atr']:
+            atr_value = indicators['atr']['current_atr']
+
+        # Calculate stop loss and take profit based on strategy
+        if self.config.enable_atr_tp_sl and atr_value > 0:
+            # ATR-based calculation
+            if signal_type == SignalType.INTRADAY_REBOUND:
+                stop_loss = current_price - (atr_value * 1.5)
+                tp1_price = current_price + (atr_value * 2.0)
+                tp2_price = current_price + (atr_value * 3.0)
+            else:  # Overnight setup
+                stop_loss = current_price - (atr_value * 2.0)
+                tp1_price = current_price + (atr_value * 3.0)
+                tp2_price = current_price + (atr_value * 4.5)
+        else:
+            # Percentage-based calculation
+            if signal_type == SignalType.INTRADAY_REBOUND:
+                stop_loss = current_price * 0.993  # -0.7%
+                tp1_price = current_price * 1.015  # +1.5%
+                tp2_price = current_price * 1.025  # +2.5%
+            else:  # Overnight setup
+                stop_loss = current_price * 0.98   # -2%
+                tp1_price = current_price * 1.025  # +2.5%
+                tp2_price = current_price * 1.04   # +4%
+
+        # Create take profit levels
+        tp_levels = [
+            TakeProfitLevel(
+                price=tp1_price,
+                percentage=60.0,
+                reasoning="First target - partial profit taking"
+            ),
+            TakeProfitLevel(
+                price=tp2_price,
+                percentage=40.0,
+                reasoning="Second target - remaining position"
+            )
+        ]
+
+        # Calculate risk metrics
+        risk_amount = abs(current_price - stop_loss)
+        potential_reward = tp1_price - current_price  # Based on first TP
+        risk_reward_ratio = potential_reward / risk_amount if risk_amount > 0 else 0
+
+        return RiskParameters(
+            stop_loss=stop_loss,
+            take_profit_levels=tp_levels,
+            risk_amount=risk_amount,
+            potential_reward=potential_reward,
+            risk_reward_ratio=risk_reward_ratio,
+            atr_multiplier=1.5 if signal_type == SignalType.INTRADAY_REBOUND else 2.0
+        )
+
+    def _create_signal_context(
+        self,
+        stock_data: StockData,
+        indicators: Dict,
+        conditions: Dict[str, bool]
+    ) -> SignalContext:
+        """Create signal context with market and technical information."""
+
+        # Determine market condition
+        daily_change = stock_data.daily_change_pct
+        if abs(daily_change) > 3:
+            market_condition = "volatile"
+        elif abs(daily_change) > 1:
+            market_condition = "normal"
+        else:
+            market_condition = "quiet"
+
+        # Volume analysis
+        volume_ratio = stock_data.volume_ratio
+        if volume_ratio > 2.0:
+            volume_analysis = "high"
+        elif volume_ratio > 1.2:
+            volume_analysis = "above_average"
+        else:
+            volume_analysis = "normal"
+
+        # Get technical values
+        rsi_value = None
+        if 'rsi' in indicators and 'current_rsi' in indicators['rsi']:
+            rsi_value = indicators['rsi']['current_rsi']
+
+        ema_alignment = None
+        if 'ema' in indicators and 'trend_analysis' in indicators['ema']:
+            ema_alignment = indicators['ema']['trend_analysis'].get('ema_alignment') == 'bullish'
+
+        return SignalContext(
+            market_condition=market_condition,
+            volume_analysis=volume_analysis,
+            rsi=rsi_value,
+            ema_alignment=ema_alignment,
+            technical_setup=self._generate_technical_setup_description(conditions)
+        )
+
+    def _generate_reasoning(self, conditions: Dict[str, bool], indicators: Dict) -> str:
+        """Generate human-readable reasoning for the signal."""
+
+        reasons = []
+
+        # RSI conditions
+        if conditions.get('oversold_rsi'):
+            rsi_val = indicators.get('rsi', {}).get('current_rsi', 'N/A')
+            reasons.append(f"RSI oversold ({rsi_val})")
+
+        # Volume conditions
+        if conditions.get('volume_spike'):
+            reasons.append("Volume spike above average")
+        elif conditions.get('high_volume'):
+            reasons.append("High volume")
+
+        # Price movement
+        if conditions.get('significant_decline'):
+            reasons.append("Significant price decline")
+        elif conditions.get('positive_momentum'):
+            reasons.append("Positive momentum")
+
+        # EMA conditions
+        if conditions.get('ema_uptrend'):
+            reasons.append("EMA uptrend alignment")
+        elif conditions.get('near_ema_support'):
+            reasons.append("Near EMA support")
+
+        # Quality indicators
+        if conditions.get('quality_stock'):
+            reasons.append("Quality large-cap stock")
+
+        return "; ".join(reasons) if reasons else "Technical setup criteria met"
+
+    def _generate_technical_setup_description(self, conditions: Dict[str, bool]) -> str:
+        """Generate technical setup description."""
+
+        if conditions.get('oversold_rsi') and conditions.get('ema_uptrend'):
+            return "Oversold bounce in uptrend"
+        elif conditions.get('oversold_rsi') and conditions.get('significant_decline'):
+            return "Oversold reversal setup"
+        elif conditions.get('volume_spike') and conditions.get('positive_momentum'):
+            return "Volume breakout"
+        else:
+            return "Multi-factor technical setup"
+
+    def _determine_risk_level(self, confidence_score: float, conditions: Dict[str, bool]) -> RiskLevel:
+        """Determine risk level based on confidence and conditions."""
+
+        if confidence_score >= 0.8:
+            return RiskLevel.LOW
+        elif confidence_score >= 0.7:
+            return RiskLevel.MEDIUM
+        else:
+            return RiskLevel.HIGH
+
+    def _add_signal_tags(
+        self,
+        signal: TradingSignal,
+        conditions: Dict[str, bool],
+        indicators: Dict
+    ) -> TradingSignal:
+        """Add relevant tags to the signal."""
+
+        tags = []
+
+        # RSI tags
+        if conditions.get('extremely_oversold'):
+            tags.append("extremely_oversold")
+        elif conditions.get('oversold_rsi'):
+            tags.append("oversold")
+
+        # Volume tags
+        if conditions.get('volume_spike'):
+            tags.append("volume_spike")
+
+        # Quality tags
+        if conditions.get('quality_stock'):
+            tags.append("large_cap")
+
+        # Technical tags
+        if conditions.get('ema_strong'):
+            tags.append("strong_trend")
+
+        # Risk tags
+        if signal.risk_params.risk_reward_ratio >= 3.0:
+            tags.append("high_rr")
+
+        for tag in tags:
+            signal.add_tag(tag)
+
+        return signal
+
+    def get_screening_summary(self, signals: List[TradingSignal]) -> Dict:
+        """Generate summary statistics for screening results."""
+
+        if not signals:
+            return {
+                'total_signals': 0,
+                'avg_confidence': 0,
+                'risk_distribution': {},
+                'signal_types': {}
+            }
+
+        # Basic statistics
+        total_signals = len(signals)
+        avg_confidence = sum(s.confidence_score for s in signals) / total_signals
+
+        # Risk distribution
+        risk_distribution = {}
+        for signal in signals:
+            risk_level = signal.risk_level.value
+            risk_distribution[risk_level] = risk_distribution.get(risk_level, 0) + 1
+
+        # Signal type distribution
+        signal_types = {}
+        for signal in signals:
+            signal_type = signal.signal_type.value
+            signal_types[signal_type] = signal_types.get(signal_type, 0) + 1
+
+        # Average risk-reward ratio
+        avg_rr_ratio = sum(s.risk_params.risk_reward_ratio for s in signals) / total_signals
+
+        return {
+            'total_signals': total_signals,
+            'avg_confidence': round(avg_confidence, 3),
+            'avg_risk_reward_ratio': round(avg_rr_ratio, 2),
+            'risk_distribution': risk_distribution,
+            'signal_types': signal_types,
+            'top_signals': [
+                {
+                    'symbol': s.symbol,
+                    'confidence': s.confidence_score,
+                    'risk_reward': s.risk_params.risk_reward_ratio
+                }
+                for s in signals[:5]  # Top 5 signals
+            ]
+        }
