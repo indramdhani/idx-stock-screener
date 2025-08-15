@@ -1,2 +1,5 @@
-- masih ada error di dashboard
-- masih ada error di screener
+- Dashboard and screener run without critical errors, but:
+  - No signals are being generated due to strict screening criteria.
+  - Review and possibly relax technical indicator thresholds (RSI, EMA, volume, etc.).
+  - Check logs for which conditions are failing for each stock.
+  - Test with historical data to validate signal logic.

@@ -543,7 +543,7 @@ jobs:
         run: python scripts/run_overnight_screening.py
 ```
 
-### Phase 7: Testing & Optimization (Week 7-8)
+### Phase 7-8: Testing & Optimization (Week 7-8)
 
 #### 7.1 Unit Testing Framework
 ```python
@@ -579,6 +579,21 @@ class TestStockScreener:
         # Test intraday rebound detection logic
         pass
 ```
+
+#### 7.2 Troubleshooting Checklist: No Signals Generated
+
+If your screener is running but not generating any signals, check the following:
+
+- **Indicator Values**: Review logs to see what RSI, EMA, and other indicators are returning. Are they ever in the expected range for a signal?
+- **Screening Criteria**: Are your thresholds (e.g., RSI oversold, volume spike, price range) too strict for current market conditions?
+- **Data Quality**: Is the data complete and up-to-date? Are there missing or stale values?
+- **Configuration**: Are you excluding too many stocks via sector, ticker, or market cap filters?
+- **Test with Historical Data**: Try running the screener on past data where you know signals should be generated.
+- **Relax Criteria**: Temporarily lower thresholds to confirm the logic works and signals can be generated.
+- **Logs**: Check debug logs for which conditions are failing for each stock.
+- **Indicator Calculation**: Validate that your technical indicator functions are working as expected.
+
+If after these checks you still see no signals, consider reviewing the screener logic or consulting with a domain expert to ensure your strategy matches market realities.
 
 #### 7.2 Performance Monitoring
 ```python

@@ -17,7 +17,8 @@ An automated Indonesian stock screening system that identifies intraday and over
 ### Core Components:
 - **Data Collector**: Fetches real-time/historical stock data from IDX
 - **Technical Analyzer**: Calculates VWAP, ATR, EMA, RSI, Support/Resistance
-- **Stock Screener**: Filters stocks based on technical criteria
+- **Stock Screener**: Filters stocks based on technical criteria  
+  - **Note:** If no signals are generated, check if the screening criteria are too strict for current market conditions. Review indicator thresholds and logs for failed conditions.
 - **Risk Calculator**: Computes position sizing, stop loss, take profit
 - **Signal Generator**: Creates formatted trading signals
 - **Telegram Bot**: Delivers notifications to users
@@ -69,6 +70,10 @@ indonesian-stock-screener/
 │   │   │   └── support_resistance.py
 │   │   ├── screener.py
 │   │   └── risk_calculator.py
+│
+│   # Troubleshooting tip:
+│   # If no signals are generated, check logs for which conditions are failing.
+│   # Consider relaxing thresholds or testing with historical data where signals are expected.
 │   ├── notifications/
 │   │   ├── __init__.py
 │   │   ├── telegram_bot.py
