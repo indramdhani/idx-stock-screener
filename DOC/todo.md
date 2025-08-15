@@ -1,0 +1,2 @@
+- masih ada error di dashboard
+- masih ada error di screener

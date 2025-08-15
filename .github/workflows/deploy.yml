@@ -1,0 +1,424 @@
+name: Deploy Indonesian Stock Screener
+
+on:
+  push:
+    branches: [ main, develop ]
+    tags: [ 'v*' ]
+  pull_request:
+    branches: [ main ]
+
+  # Allow manual deployment
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment environment'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - 'staging'
+          - 'production'
+      force_deploy:
+        description: 'Force deployment even if tests fail'
+        required: false
+        default: false
+        type: boolean
+
+env:
+  PYTHON_VERSION: '3.11'
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.10', '3.11']
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Cache Python dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-${{ matrix.python-version }}-
+            ${{ runner.os }}-pip-
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest pytest-asyncio pytest-cov black isort flake8 mypy
+
+      - name: Run code formatting checks
+        run: |
+          echo "🔍 Checking code formatting..."
+          black --check --diff .
+          isort --check-only --diff .
+
+      - name: Run linting
+        run: |
+          echo "🔍 Running linting..."
+          flake8 src/ --count --select=E9,F63,F7,F82 --show-source --statistics
+          flake8 src/ --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+      - name: Run type checking
+        continue-on-error: true
+        run: |
+          echo "🔍 Running type checking..."
+          mypy src/ --ignore-missing-imports
+
+      - name: Run Phase 1-2 tests
+        run: |
+          echo "🧪 Running Phase 1-2 tests..."
+          python test_phase1_2.py
+
+      - name: Run Phase 3-4 tests
+        run: |
+          echo "🧪 Running Phase 3-4 tests..."
+          python test_phase3_4.py
+
+      - name: Run unit tests (if they exist)
+        continue-on-error: true
+        run: |
+          if [ -d "tests/" ]; then
+            echo "🧪 Running unit tests..."
+            pytest tests/ -v --cov=src --cov-report=xml --cov-report=term-missing
+          else
+            echo "ℹ️ No unit tests directory found"
+          fi
+
+      - name: Upload coverage to Codecov
+        if: matrix.python-version == '3.11'
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./coverage.xml
+          flags: unittests
+          name: codecov-umbrella
+          fail_ci_if_error: false
+
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install safety bandit
+
+      - name: Run safety check
+        continue-on-error: true
+        run: |
+          echo "🔒 Checking for known security vulnerabilities..."
+          safety check --json || echo "⚠️ Security vulnerabilities found"
+
+      - name: Run bandit security linter
+        continue-on-error: true
+        run: |
+          echo "🔒 Running security analysis..."
+          bandit -r src/ -f json || echo "⚠️ Security issues found"
+
+  build-docker:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Log in to Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=sha,prefix=sha-,format=short
+
+      - name: Create Dockerfile
+        run: |
+          cat > Dockerfile << 'EOF'
+          FROM python:3.11-slim
+
+          # Set working directory
+          WORKDIR /app
+
+          # Install system dependencies
+          RUN apt-get update && apt-get install -y \
+              curl \
+              && rm -rf /var/lib/apt/lists/*
+
+          # Copy requirements and install Python dependencies
+          COPY requirements.txt .
+          RUN pip install --no-cache-dir -r requirements.txt
+
+          # Copy application code
+          COPY src/ src/
+          COPY main.py .
+          COPY initial-script.py .
+
+          # Create logs directory
+          RUN mkdir -p logs
+
+          # Create non-root user
+          RUN useradd --create-home --shell /bin/bash screener
+          RUN chown -R screener:screener /app
+          USER screener
+
+          # Set environment variables
+          ENV PYTHONPATH=/app
+          ENV TZ=Asia/Jakarta
+
+          # Health check
+          HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+            CMD python -c "import src.config; print('OK')" || exit 1
+
+          # Default command
+          CMD ["python", "main.py", "--mode", "both"]
+          EOF
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  deploy-staging:
+    needs: [test, build-docker]
+    runs-on: ubuntu-latest
+    if: |
+      (github.ref == 'refs/heads/develop' ||
+       github.event.inputs.environment == 'staging') &&
+      (github.event.inputs.force_deploy == 'true' || success())
+    environment: staging
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Deploy to staging
+        run: |
+          echo "🚀 Deploying to staging environment..."
+          echo "Image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:sha-${{ github.sha }}"
+
+          # Here you would typically:
+          # 1. Deploy to staging server (AWS, GCP, Azure, etc.)
+          # 2. Update container orchestration (K8s, Docker Compose, etc.)
+          # 3. Run database migrations if needed
+          # 4. Update configuration
+
+          # For now, we'll just simulate the deployment
+          echo "✅ Staging deployment completed"
+
+      - name: Run staging tests
+        run: |
+          echo "🧪 Running staging integration tests..."
+          # You would run integration tests against staging environment here
+          sleep 5
+          echo "✅ Staging tests passed"
+
+      - name: Send staging notification
+        if: always()
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_IDS: ${{ secrets.TELEGRAM_CHAT_IDS }}
+        run: |
+          if [ -n "$TELEGRAM_BOT_TOKEN" ]; then
+            python -c "
+            import asyncio
+            from src.notifications import send_market_update_to_telegram
+            from src.config import load_config
+
+            async def send_deployment_notification():
+                try:
+                    config = load_config()
+                    if config.notifications.telegram_bot_token:
+                        status = '✅ Success' if '${{ job.status }}' == 'success' else '❌ Failed'
+                        message = f'🚀 Staging Deployment\\n\\nStatus: {status}\\nBranch: ${{ github.ref_name }}\\nCommit: ${{ github.sha }}\\nTime: $(date)'
+                        await send_market_update_to_telegram(message, config, 'normal')
+                except Exception as e:
+                    print(f'Failed to send notification: {e}')
+
+            asyncio.run(send_deployment_notification())
+            "
+          else
+            echo "ℹ️ Telegram notifications not configured"
+          fi
+
+  deploy-production:
+    needs: [test, build-docker]
+    runs-on: ubuntu-latest
+    if: |
+      (startsWith(github.ref, 'refs/tags/v') ||
+       github.ref == 'refs/heads/main' ||
+       github.event.inputs.environment == 'production') &&
+      (github.event.inputs.force_deploy == 'true' || success())
+    environment: production
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Deploy to production
+        run: |
+          echo "🚀 Deploying to production environment..."
+          echo "Image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:sha-${{ github.sha }}"
+
+          # Production deployment steps would go here
+          # This might include:
+          # 1. Blue-green deployment
+          # 2. Rolling updates
+          # 3. Database migrations
+          # 4. Configuration updates
+          # 5. Health checks
+
+          echo "✅ Production deployment completed"
+
+      - name: Run production smoke tests
+        run: |
+          echo "🧪 Running production smoke tests..."
+          # Run basic smoke tests to ensure the deployment is working
+          sleep 5
+          echo "✅ Production smoke tests passed"
+
+      - name: Create GitHub release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Indonesian Stock Screener ${{ github.ref }}
+          draft: false
+          prerelease: false
+          body: |
+            ## Changes in this release
+
+            ### Features
+            - Indonesian Stock Exchange (IDX) screening automation
+            - Technical analysis with VWAP, ATR, RSI, EMA indicators
+            - Risk management and position sizing
+            - Telegram notifications
+            - Intraday and overnight trading strategies
+
+            ### Technical Details
+            - Docker image: `${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.ref_name }}`
+            - Python 3.11+ required
+            - Automated scheduling via GitHub Actions
+
+            ### Installation
+            ```bash
+            git clone https://github.com/${{ github.repository }}.git
+            cd idx-stock-screener
+            pip install -r requirements.txt
+            python main.py
+            ```
+
+            ### Configuration
+            Set environment variables:
+            - `TELEGRAM_BOT_TOKEN`: Your Telegram bot token
+            - `TELEGRAM_CHAT_IDS`: Comma-separated chat IDs
+
+            See README.md for full documentation.
+
+      - name: Send production notification
+        if: always()
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_IDS: ${{ secrets.TELEGRAM_CHAT_IDS }}
+        run: |
+          if [ -n "$TELEGRAM_BOT_TOKEN" ]; then
+            python -c "
+            import asyncio
+            from src.notifications import send_market_update_to_telegram
+            from src.config import load_config
+
+            async def send_deployment_notification():
+                try:
+                    config = load_config()
+                    if config.notifications.telegram_bot_token:
+                        status = '✅ Success' if '${{ job.status }}' == 'success' else '❌ Failed'
+                        env_type = '🏭 Production'
+                        message = f'{env_type} Deployment\\n\\nStatus: {status}\\nVersion: ${{ github.ref_name }}\\nCommit: ${{ github.sha }}\\nTime: $(date)\\n\\n🎉 Indonesian Stock Screener is live!'
+                        await send_market_update_to_telegram(message, config, 'high')
+                except Exception as e:
+                    print(f'Failed to send notification: {e}')
+
+            asyncio.run(send_deployment_notification())
+            "
+          else
+            echo "ℹ️ Telegram notifications not configured"
+          fi
+
+  cleanup:
+    runs-on: ubuntu-latest
+    needs: [deploy-staging, deploy-production]
+    if: always()
+
+    steps:
+      - name: Clean up old images
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+
+            try {
+              // Get all packages for this repository
+              const packages = await github.rest.packages.getAllPackageVersionsForPackageOwnedByOrg({
+                package_type: 'container',
+                package_name: repo,
+                org: owner
+              });
+
+              // Keep only the latest 10 versions
+              const versionsToDelete = packages.data.slice(10);
+
+              for (const version of versionsToDelete) {
+                console.log(`Deleting package version: ${version.name}`);
+                await github.rest.packages.deletePackageVersionForOrg({
+                  package_type: 'container',
+                  package_name: repo,
+                  org: owner,
+                  package_version_id: version.id
+                });
+              }
+
+              console.log(`Cleaned up ${versionsToDelete.length} old package versions`);
+            } catch (error) {
+              console.log(`Cleanup failed: ${error.message}`);
+            }

@@ -1,0 +1,388 @@
+name: Scheduled Indonesian Stock Screening
+
+on:
+  schedule:
+    # Intraday screening every 30 minutes during IDX market hours (9 AM - 3 PM WIB = 2 AM - 8 AM UTC)
+    - cron: '0,30 2-8 * * 1-5'
+    # Overnight screening at 5 PM WIB (10 AM UTC) for next-day setups
+    - cron: '0 10 * * 1-5'
+    # Market status check at 8 AM WIB (1 AM UTC) before market opens
+    - cron: '0 1 * * 1-5'
+
+  # Allow manual triggering
+  workflow_dispatch:
+    inputs:
+      screening_mode:
+        description: 'Screening mode to run'
+        required: true
+        default: 'both'
+        type: choice
+        options:
+          - 'intraday'
+          - 'overnight'
+          - 'both'
+          - 'validate-only'
+      force_run:
+        description: 'Force run even outside market hours'
+        required: false
+        default: false
+        type: boolean
+      debug_mode:
+        description: 'Enable debug logging'
+        required: false
+        default: false
+        type: boolean
+
+env:
+  PYTHON_VERSION: '3.11'
+  TZ: 'Asia/Jakarta'
+
+jobs:
+  determine-job:
+    runs-on: ubuntu-latest
+    outputs:
+      should_run_intraday: ${{ steps.determine.outputs.should_run_intraday }}
+      should_run_overnight: ${{ steps.determine.outputs.should_run_overnight }}
+      should_run_status: ${{ steps.determine.outputs.should_run_status }}
+      screening_mode: ${{ steps.determine.outputs.screening_mode }}
+    steps:
+      - name: Determine job type
+        id: determine
+        run: |
+          # Set timezone
+          export TZ=Asia/Jakarta
+          current_hour=$(date +%H)
+          current_minute=$(date +%M)
+          current_day=$(date +%u)  # 1=Monday, 7=Sunday
+
+          # Default values
+          should_run_intraday="false"
+          should_run_overnight="false"
+          should_run_status="false"
+          screening_mode="none"
+
+          # Manual dispatch handling
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            case "${{ github.event.inputs.screening_mode }}" in
+              "intraday")
+                should_run_intraday="true"
+                screening_mode="intraday"
+                ;;
+              "overnight")
+                should_run_overnight="true"
+                screening_mode="overnight"
+                ;;
+              "both")
+                should_run_intraday="true"
+                should_run_overnight="true"
+                screening_mode="both"
+                ;;
+              "validate-only")
+                should_run_status="true"
+                screening_mode="validate-only"
+                ;;
+            esac
+          else
+            # Scheduled run - determine based on time
+            # Only run on weekdays (Monday=1 to Friday=5)
+            if [ $current_day -ge 1 ] && [ $current_day -le 5 ]; then
+              # Status check at 8 AM WIB (1 AM UTC)
+              if [ $current_hour -eq 1 ] && [ $current_minute -eq 0 ]; then
+                should_run_status="true"
+                screening_mode="status"
+              # Intraday screening during market hours (9 AM - 3 PM WIB = 2 AM - 8 AM UTC)
+              elif [ $current_hour -ge 2 ] && [ $current_hour -le 8 ]; then
+                should_run_intraday="true"
+                screening_mode="intraday"
+              # Overnight screening at 5 PM WIB (10 AM UTC)
+              elif [ $current_hour -eq 10 ] && [ $current_minute -eq 0 ]; then
+                should_run_overnight="true"
+                screening_mode="overnight"
+              fi
+            fi
+          fi
+
+          echo "should_run_intraday=$should_run_intraday" >> $GITHUB_OUTPUT
+          echo "should_run_overnight=$should_run_overnight" >> $GITHUB_OUTPUT
+          echo "should_run_status=$should_run_status" >> $GITHUB_OUTPUT
+          echo "screening_mode=$screening_mode" >> $GITHUB_OUTPUT
+
+          echo "🕐 Current time: $(date)"
+          echo "📊 Should run intraday: $should_run_intraday"
+          echo "🌙 Should run overnight: $should_run_overnight"
+          echo "📈 Should run status: $should_run_status"
+          echo "🎯 Screening mode: $screening_mode"
+
+  market-status-check:
+    needs: determine-job
+    if: needs.determine-job.outputs.should_run_status == 'true' || github.event.inputs.screening_mode == 'validate-only'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Cache Python dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run market status check and data validation
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_IDS: ${{ secrets.TELEGRAM_CHAT_IDS }}
+          DEFAULT_CAPITAL_IDR: ${{ secrets.DEFAULT_CAPITAL_IDR || '100000000' }}
+        run: |
+          python main.py --validate-only --log-level INFO
+
+      - name: Send status update
+        if: always()
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_IDS: ${{ secrets.TELEGRAM_CHAT_IDS }}
+        run: |
+          python -c "
+          import asyncio
+          from src.notifications import send_market_update_to_telegram
+          from src.config import load_config
+          from datetime import datetime
+
+          async def send_update():
+              try:
+                  config = load_config()
+                  if config.notifications.telegram_bot_token:
+                      update_text = f'🌅 Daily market check completed at {datetime.now().strftime(\"%H:%M WIB\")}\\n\\n📊 System status: Operational\\n🔍 Data validation: Completed\\n⏰ Next screening: Market open (09:00 WIB)'
+                      await send_market_update_to_telegram(update_text, config, 'low')
+                      print('✅ Status update sent')
+                  else:
+                      print('ℹ️ Telegram not configured')
+              except Exception as e:
+                  print(f'❌ Failed to send update: {e}')
+
+          asyncio.run(send_update())
+          "
+
+  intraday-screening:
+    needs: determine-job
+    if: needs.determine-job.outputs.should_run_intraday == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Cache Python dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run intraday screening
+        id: screening
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_IDS: ${{ secrets.TELEGRAM_CHAT_IDS }}
+          DEFAULT_CAPITAL_IDR: ${{ secrets.DEFAULT_CAPITAL_IDR || '100000000' }}
+        run: |
+          log_level="INFO"
+          if [ "${{ github.event.inputs.debug_mode }}" = "true" ]; then
+            log_level="DEBUG"
+          fi
+
+          echo "🚀 Starting intraday screening..."
+          python main.py --mode intraday --log-level $log_level
+
+          # Check if any signals were generated
+          if ls logs/intraday_screening_*.json 1> /dev/null 2>&1; then
+            echo "signals_generated=true" >> $GITHUB_OUTPUT
+            echo "✅ Intraday screening completed with signals"
+          else
+            echo "signals_generated=false" >> $GITHUB_OUTPUT
+            echo "ℹ️ Intraday screening completed - no signals generated"
+          fi
+
+      - name: Upload screening results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: intraday-screening-results-${{ github.run_id }}
+          path: |
+            logs/intraday_screening_*.json
+            logs/intraday_signals_*.csv
+            logs/screener_*.log
+          retention-days: 30
+
+      - name: Send completion notification
+        if: always()
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_IDS: ${{ secrets.TELEGRAM_CHAT_IDS }}
+        run: |
+          python -c "
+          import asyncio
+          from src.notifications import send_market_update_to_telegram
+          from src.config import load_config
+          from datetime import datetime
+          import os
+
+          async def send_notification():
+              try:
+                  config = load_config()
+                  if config.notifications.telegram_bot_token:
+                      status = '✅ Success' if '${{ job.status }}' == 'success' else '❌ Failed'
+                      signals_status = '🎯 Signals generated' if '${{ steps.screening.outputs.signals_generated }}' == 'true' else '📭 No signals'
+
+                      update_text = f'🚀 Intraday screening completed\\n\\nStatus: {status}\\nResult: {signals_status}\\nTime: {datetime.now().strftime(\"%H:%M WIB\")}'
+                      await send_market_update_to_telegram(update_text, config, 'normal')
+                  else:
+                      print('ℹ️ Telegram not configured')
+              except Exception as e:
+                  print(f'❌ Failed to send notification: {e}')
+
+          asyncio.run(send_notification())
+          "
+
+  overnight-screening:
+    needs: determine-job
+    if: needs.determine-job.outputs.should_run_overnight == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Cache Python dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run overnight screening
+        id: screening
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_IDS: ${{ secrets.TELEGRAM_CHAT_IDS }}
+          DEFAULT_CAPITAL_IDR: ${{ secrets.DEFAULT_CAPITAL_IDR || '100000000' }}
+        run: |
+          log_level="INFO"
+          if [ "${{ github.event.inputs.debug_mode }}" = "true" ]; then
+            log_level="DEBUG"
+          fi
+
+          echo "🌙 Starting overnight screening..."
+          python main.py --mode overnight --log-level $log_level
+
+          # Check if any signals were generated
+          if ls logs/overnight_screening_*.json 1> /dev/null 2>&1; then
+            echo "signals_generated=true" >> $GITHUB_OUTPUT
+            echo "✅ Overnight screening completed with signals"
+          else
+            echo "signals_generated=false" >> $GITHUB_OUTPUT
+            echo "ℹ️ Overnight screening completed - no signals generated"
+          fi
+
+      - name: Upload screening results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: overnight-screening-results-${{ github.run_id }}
+          path: |
+            logs/overnight_screening_*.json
+            logs/overnight_signals_*.csv
+            logs/screener_*.log
+          retention-days: 30
+
+      - name: Send completion notification
+        if: always()
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_IDS: ${{ secrets.TELEGRAM_CHAT_IDS }}
+        run: |
+          python -c "
+          import asyncio
+          from src.notifications import send_market_update_to_telegram
+          from src.config import load_config
+          from datetime import datetime
+
+          async def send_notification():
+              try:
+                  config = load_config()
+                  if config.notifications.telegram_bot_token:
+                      status = '✅ Success' if '${{ job.status }}' == 'success' else '❌ Failed'
+                      signals_status = '🎯 Signals found' if '${{ steps.screening.outputs.signals_generated }}' == 'true' else '📭 No signals'
+
+                      update_text = f'🌙 Overnight screening completed\\n\\nStatus: {status}\\nResult: {signals_status}\\nTime: {datetime.now().strftime(\"%H:%M WIB\")}\\n\\n📅 Ready for next trading day'
+                      await send_market_update_to_telegram(update_text, config, 'normal')
+                  else:
+                      print('ℹ️ Telegram not configured')
+              except Exception as e:
+                  print(f'❌ Failed to send notification: {e}')
+
+          asyncio.run(send_notification())
+          "
+
+  cleanup-old-artifacts:
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Delete old artifacts
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const artifacts = await github.rest.actions.listArtifactsForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            });
+
+            const oldArtifacts = artifacts.data.artifacts.filter(artifact => {
+              const ageInMs = Date.now() - new Date(artifact.created_at).getTime();
+              const ageInDays = ageInMs / (1000 * 60 * 60 * 24);
+              return ageInDays > 7; // Delete artifacts older than 7 days
+            });
+
+            for (const artifact of oldArtifacts) {
+              console.log(`Deleting artifact: ${artifact.name} (${artifact.created_at})`);
+              await github.rest.actions.deleteArtifact({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                artifact_id: artifact.id,
+              });
+            }
+
+            console.log(`Deleted ${oldArtifacts.length} old artifacts`);

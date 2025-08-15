@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IDX Stock Screener Dashboard</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- Plotly.js for charts -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <!-- Socket.IO for real-time updates -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.js"></script>
+
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --danger-color: #e74c3c;
+            --background-color: #ecf0f1;
+        }
+
+        body {
+            background-color: var(--background-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            box-shadow: 0 2px 4px rgba(0,0,0,.1);
+        }
+
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,.1);
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+        }
+
+        .metric-card {
+            background: linear-gradient(135deg, #fff, #f8f9fa);
+            border-left: 4px solid var(--secondary-color);
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .metric-change {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .positive { color: var(--success-color); }
+        .negative { color: var(--danger-color); }
+        .neutral { color: var(--warning-color); }
+
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+        }
+
+        .status-online { background-color: var(--success-color); }
+        .status-offline { background-color: var(--danger-color); }
+        .status-warning { background-color: var(--warning-color); }
+
+        .alert-container {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .chart-container {
+            height: 400px;
+        }
+
+        .position-item {
+            border-left: 3px solid var(--secondary-color);
+            background: rgba(52, 152, 219, 0.05);
+            margin-bottom: 10px;
+            border-radius: 8px;
+        }
+
+        .btn-refresh {
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-chart-line me-2"></i>
+                IDX Stock Screener Dashboard
+            </a>
+
+            <div class="navbar-nav ms-auto">
+                <span class="nav-item">
+                    <span class="status-indicator" id="connectionStatus"></span>
+                    <span id="connectionText">Connecting...</span>
+                </span>
+                <span class="nav-item ms-3">
+                    <small class="text-light">Last Update: <span id="lastUpdate">--</span></small>
+                </span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid py-4">
+        <!-- Main Metrics Row -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="card metric-card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="card-subtitle mb-2 text-muted">Portfolio Value</h6>
+                                <div class="metric-value" id="portfolioValue">Rp 0</div>
+                                <div class="metric-change" id="portfolioChange">--</div>
+                            </div>
+                            <div class="text-primary">
+                                <i class="fas fa-wallet fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card metric-card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="card-subtitle mb-2 text-muted">Total P&L</h6>
+                                <div class="metric-value" id="totalPnl">Rp 0</div>
+                                <div class="metric-change" id="totalPnlPct">--</div>
+                            </div>
+                            <div class="text-success">
+                                <i class="fas fa-chart-line fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card metric-card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="card-subtitle mb-2 text-muted">Day P&L</h6>
+                                <div class="metric-value" id="dayPnl">Rp 0</div>
+                                <div class="metric-change" id="dayPnlPct">--</div>
+                            </div>
+                            <div class="text-warning">
+                                <i class="fas fa-calendar-day fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card metric-card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="card-subtitle mb-2 text-muted">Open Positions</h6>
+                                <div class="metric-value" id="openPositions">0</div>
+                                <div class="metric-change">
+                                    Risk: <span id="riskUtilization">0%</span>
+                                </div>
+                            </div>
+                            <div class="text-info">
+                                <i class="fas fa-layer-group fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts and Tables Row -->
+        <div class="row mb-4">
+            <!-- Portfolio Value Chart -->
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">
+                            <i class="fas fa-chart-area me-2"></i>
+                            Portfolio Performance
+                        </h5>
+                        <button class="btn btn-outline-primary btn-sm" onclick="refreshCharts()">
+                            <i class="fas fa-sync-alt" id="refreshIcon"></i>
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div id="portfolioChart" class="chart-container"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Position Allocation -->
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-pie-chart me-2"></i>
+                            Position Allocation
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="allocationChart" class="chart-container"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Positions and Alerts Row -->
+        <div class="row">
+            <!-- Current Positions -->
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-list me-2"></i>
+                            Current Positions
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="positionsContainer">
+                            <div class="text-center text-muted py-4">
+                                <i class="fas fa-inbox fa-3x mb-3"></i>
+                                <p>No open positions</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alerts and System Status -->
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-bell me-2"></i>
+                            Alerts & Status
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="alertsContainer" class="alert-container">
+                            <div class="text-center text-muted py-3">
+                                <i class="fas fa-check-circle fa-2x mb-2"></i>
+                                <p>No alerts</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container for Notifications -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="notificationToast" class="toast" role="alert">
+            <div class="toast-header">
+                <i class="fas fa-info-circle text-primary me-2"></i>
+                <strong class="me-auto">IDX Screener</strong>
+                <small id="toastTime">now</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body" id="toastMessage">
+                <!-- Toast message content -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Global variables
+        let socket;
+        let portfolioData = {};
+        let isConnected = false;
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeWebSocket();
+            loadInitialData();
+            setInterval(updateLastUpdateTime, 1000);
+        });
+
+        // WebSocket connection
+        function initializeWebSocket() {
+            socket = io();
+
+            socket.on('connect', function() {
+                isConnected = true;
+                updateConnectionStatus('online', 'Connected');
+                showToast('Connected to server', 'success');
+            });
+
+            socket.on('disconnect', function() {
+                isConnected = false;
+                updateConnectionStatus('offline', 'Disconnected');
+                showToast('Disconnected from server', 'warning');
+            });
+
+            socket.on('portfolio_update', function(data) {
+                updatePortfolioData(data);
+            });
+
+            socket.on('alerts_update', function(alerts) {
+                updateAlerts(alerts);
+            });
+
+            socket.on('status', function(data) {
+                console.log('Status update:', data);
+            });
+        }
+
+        // Load initial data via API
+        async function loadInitialData() {
+            try {
+                // Load portfolio state
+                const portfolioResponse = await fetch('/api/portfolio/state');
+                if (portfolioResponse.ok) {
+                    const data = await portfolioResponse.json();
+                    updatePortfolioData(data);
+                }
+
+                // Load current positions
+                const positionsResponse = await fetch('/api/portfolio/positions');
+                if (positionsResponse.ok) {
+                    const positions = await positionsResponse.json();
+                    updatePositions(positions);
+                }
+
+                // Load alerts
+                const alertsResponse = await fetch('/api/alerts');
+                if (alertsResponse.ok) {
+                    const alerts = await alertsResponse.json();
+                    updateAlerts(alerts);
+                }
+
+                // Load charts
+                await refreshCharts();
+
+            } catch (error) {
+                console.error('Error loading initial data:', error);
+                showToast('Error loading data', 'danger');
+            }
+        }
+
+        // Update connection status
+        function updateConnectionStatus(status, text) {
+            const indicator = document.getElementById('connectionStatus');
+            const textElement = document.getElementById('connectionText');
+
+            indicator.className = `status-indicator status-${status}`;
+            textElement.textContent = text;
+        }
+
+        // Update portfolio data
+        function updatePortfolioData(data) {
+            portfolioData = data;
+
+            // Update main metrics
+            document.getElementById('portfolioValue').textContent = formatCurrency(data.total_value || 0);
+            document.getElementById('totalPnl').textContent = formatCurrency(data.total_pnl || 0);
+            document.getElementById('totalPnlPct').textContent = formatPercentage(data.total_pnl_pct || 0);
+            document.getElementById('dayPnl').textContent = formatCurrency(data.day_pnl || 0);
+            document.getElementById('dayPnlPct').textContent = formatPercentage(data.day_pnl_pct || 0);
+            document.getElementById('openPositions').textContent = data.open_positions || 0;
+            document.getElementById('riskUtilization').textContent = formatPercentage(data.risk_utilization || 0);
+
+            // Update colors based on P&L
+            updatePnlColors('totalPnl', 'totalPnlPct', data.total_pnl || 0);
+            updatePnlColors('dayPnl', 'dayPnlPct', data.day_pnl || 0);
+
+            document.getElementById('lastUpdate').textContent = new Date().toLocaleTimeString();
+        }
+
+        // Update P&L colors
+        function updatePnlColors(valueId, pctId, value) {
+            const valueElement = document.getElementById(valueId);
+            const pctElement = document.getElementById(pctId);
+
+            const colorClass = value > 0 ? 'positive' : value < 0 ? 'negative' : 'neutral';
+
+            valueElement.className = `metric-value ${colorClass}`;
+            pctElement.className = `metric-change ${colorClass}`;
+        }
+
+        // Update positions display
+        function updatePositions(positions) {
+            const container = document.getElementById('positionsContainer');
+
+            if (!positions || positions.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center text-muted py-4">
+                        <i class="fas fa-inbox fa-3x mb-3"></i>
+                        <p>No open positions</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+            positions.forEach(position => {
+                const pnlClass = position.unrealized_pnl >= 0 ? 'text-success' : 'text-danger';
+                const pnlIcon = position.unrealized_pnl >= 0 ? 'fa-arrow-up' : 'fa-arrow-down';
+
+                html += `
+                    <div class="position-item p-3 mb-2">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="mb-1">${position.symbol}</h6>
+                                <small class="text-muted">
+                                    ${position.quantity} shares @ ${formatCurrency(position.entry_price)}
+                                </small>
+                            </div>
+                            <div class="text-end">
+                                <div class="${pnlClass}">
+                                    <i class="fas ${pnlIcon} me-1"></i>
+                                    ${formatCurrency(position.unrealized_pnl)}
+                                </div>
+                                <small class="${pnlClass}">
+                                    ${formatPercentage(position.unrealized_pnl_pct)}
+                                </small>
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <div class="row">
+                                <div class="col">
+                                    <small class="text-muted">Current: ${formatCurrency(position.current_price)}</small>
+                                </div>
+                                <div class="col text-end">
+                                    <small class="text-muted">Strategy: ${position.strategy}</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        // Update alerts display
+        function updateAlerts(alerts) {
+            const container = document.getElementById('alertsContainer');
+
+            if (!alerts || alerts.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center text-muted py-3">
+                        <i class="fas fa-check-circle fa-2x mb-2"></i>
+                        <p>No alerts</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+            alerts.forEach(alert => {
+                const alertClass = {
+                    'info': 'alert-info',
+                    'warning': 'alert-warning',
+                    'danger': 'alert-danger',
+                    'success': 'alert-success'
+                }[alert.type] || 'alert-info';
+
+                const alertIcon = {
+                    'info': 'fa-info-circle',
+                    'warning': 'fa-exclamation-triangle',
+                    'danger': 'fa-exclamation-circle',
+                    'success': 'fa-check-circle'
+                }[alert.type] || 'fa-info-circle';
+
+                html += `
+                    <div class="alert ${alertClass} py-2">
+                        <i class="fas ${alertIcon} me-2"></i>
+                        <small>${alert.message}</small>
+                        <br>
+                        <small class="text-muted">${new Date(alert.timestamp).toLocaleString()}</small>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        // Refresh charts
+        async function refreshCharts() {
+            const refreshIcon = document.getElementById('refreshIcon');
+            refreshIcon.classList.add('btn-refresh');
+
+            try {
+                // Load portfolio value chart
+                const portfolioResponse = await fetch('/api/charts/portfolio_value');
+                if (portfolioResponse.ok) {
+                    const chartData = await portfolioResponse.json();
+                    Plotly.newPlot('portfolioChart', chartData.data, chartData.layout, {responsive: true});
+                }
+
+                // Load allocation chart
+                const allocationResponse = await fetch('/api/charts/positions');
+                if (allocationResponse.ok) {
+                    const chartData = await allocationResponse.json();
+                    if (chartData.data && chartData.data.length > 0) {
+                        Plotly.newPlot('allocationChart', chartData.data, chartData.layout, {responsive: true});
+                    } else {
+                        document.getElementById('allocationChart').innerHTML = `
+                            <div class="text-center text-muted py-4">
+                                <i class="fas fa-chart-pie fa-3x mb-3"></i>
+                                <p>No positions to display</p>
+                            </div>
+                        `;
+                    }
+                }
+
+            } catch (error) {
+                console.error('Error refreshing charts:', error);
+                showToast('Error loading charts', 'warning');
+            } finally {
+                setTimeout(() => {
+                    refreshIcon.classList.remove('btn-refresh');
+                }, 1000);
+            }
+        }
+
+        // Manual refresh request
+        function requestUpdate() {
+            if (socket && isConnected) {
+                socket.emit('request_update');
+                showToast('Requesting update...', 'info');
+            }
+        }
+
+        // Utility functions
+        function formatCurrency(value) {
+            if (value === null || value === undefined) return 'Rp 0';
+            return new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }).format(value);
+        }
+
+        function formatPercentage(value) {
+            if (value === null || value === undefined) return '0.00%';
+            return (value * 100).toFixed(2) + '%';
+        }
+
+        function updateLastUpdateTime() {
+            const now = new Date();
+            document.getElementById('lastUpdate').textContent = now.toLocaleTimeString();
+        }
+
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('notificationToast');
+            const toastBody = document.getElementById('toastMessage');
+            const toastTime = document.getElementById('toastTime');
+
+            toastBody.textContent = message;
+            toastTime.textContent = 'now';
+
+            // Update toast styling based on type
+            const toastHeader = toast.querySelector('.toast-header');
+            const icon = toastHeader.querySelector('i');
+
+            // Reset classes
+            icon.className = 'fas me-2';
+
+            switch(type) {
+                case 'success':
+                    icon.classList.add('fa-check-circle', 'text-success');
+                    break;
+                case 'warning':
+                    icon.classList.add('fa-exclamation-triangle', 'text-warning');
+                    break;
+                case 'danger':
+                    icon.classList.add('fa-exclamation-circle', 'text-danger');
+                    break;
+                default:
+                    icon.classList.add('fa-info-circle', 'text-primary');
+            }
+
+            const bsToast = new bootstrap.Toast(toast);
+            bsToast.show();
+        }
+    </script>
+</body>
+</html>

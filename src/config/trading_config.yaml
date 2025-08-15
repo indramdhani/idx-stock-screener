@@ -1,0 +1,136 @@
+# Indonesian Stock Screener Trading Configuration
+# ==================================================
+#
+# This YAML file contains the main configuration parameters for the stock screener.
+# Sensitive information like API keys should be set via environment variables.
+
+# Risk Management Configuration
+risk_management:
+  max_risk_per_trade: 0.02          # 2% of portfolio per trade
+  max_portfolio_risk: 0.06          # 6% maximum total portfolio exposure
+  default_stop_loss_atr: 2.0        # Stop loss at 2x ATR from entry
+  default_take_profit_ratio: 2.0    # Risk-reward ratio (2:1)
+  min_rr_ratio: 1.5                 # Minimum acceptable risk-reward ratio
+
+# Stock Screening Criteria
+screening_criteria:
+  min_volume: 1000000               # Minimum daily volume (1M shares)
+  min_price: 1000                   # Minimum stock price (IDR 1,000)
+  max_price: 50000                  # Maximum stock price (IDR 50,000)
+  min_market_cap: 500000000000      # Minimum market cap (500B IDR)
+  exclude_sectors:
+    - "Banking"                     # Exclude high-regulation sectors
+    - "Insurance"
+  exclude_tickers:                  # Specific tickers to exclude
+    - "EXAMPLE.JK"
+
+# Technical Indicator Parameters
+indicators:
+  # RSI Configuration
+  rsi_oversold: 30                  # RSI oversold threshold
+  rsi_overbought: 70               # RSI overbought threshold
+  rsi_period: 14                   # RSI calculation period
+
+  # EMA Configuration
+  ema_periods: [5, 13, 21]         # EMA periods for trend analysis
+
+  # VWAP Configuration
+  vwap_deviation_threshold: 0.02    # 2% maximum deviation from VWAP
+
+  # Volume Analysis
+  volume_spike_threshold: 1.5       # Volume must be 1.5x average
+  volume_average_period: 10         # Period for volume average calculation
+
+  # ATR Configuration
+  atr_period: 14                    # ATR calculation period
+
+# Notification Settings
+notifications:
+  # Telegram settings (tokens set via environment variables)
+  # telegram_bot_token: "SET_VIA_ENV_TELEGRAM_BOT_TOKEN"
+  # telegram_chat_ids: "SET_VIA_ENV_TELEGRAM_CHAT_IDS"
+
+  max_signals_per_day: 10           # Maximum signals to send per day
+  signal_cooldown_minutes: 30       # Cooldown between signals for same ticker
+  include_charts: false             # Include charts in notifications (future feature)
+
+# Data Collection Configuration
+data:
+  data_source: "yahoo"              # Primary data source (yahoo/idx/custom)
+  data_refresh_interval: 300        # Data refresh interval (5 minutes)
+  intraday_interval: "5m"           # Intraday data interval
+  historical_period: "30d"          # Historical data period
+
+  # Data Quality Parameters
+  min_data_points: 20               # Minimum data points required for analysis
+  max_data_age_hours: 24            # Maximum acceptable data age
+
+# Scheduling Configuration
+scheduling:
+  # Cron expressions for different workflows
+  intraday_screening_cron: "*/15 9-15 * * 1-5"   # Every 15 min during market hours
+  overnight_screening_cron: "0 17 * * 1-5"       # 5 PM daily for overnight setups
+  risk_review_cron: "0 8 * * 1-5"                # 8 AM daily risk review
+
+  # Market Hours (24-hour format, Jakarta time)
+  market_open_hour: 9               # 9 AM
+  market_close_hour: 15             # 3 PM
+
+  timezone: "Asia/Jakarta"          # Timezone for all scheduling
+
+# Default Stock Universe
+default_tickers:
+  # Blue Chip Stocks
+  - "BBCA.JK"    # Bank Central Asia
+  - "BBRI.JK"    # Bank Rakyat Indonesia
+  - "BMRI.JK"    # Bank Mandiri
+  - "BBNI.JK"    # Bank Negara Indonesia
+  - "TLKM.JK"    # Telkom Indonesia
+
+  # Consumer & Retail
+  - "AMRT.JK"    # Sumber Alfaria Trijaya
+  - "INDF.JK"    # Indofood Sukses Makmur
+  - "UNVR.JK"    # Unilever Indonesia
+  - "ICBP.JK"    # Indofood CBP Sukses Makmur
+  - "KLBF.JK"    # Kalbe Farma
+
+  # Energy & Materials
+  - "PGAS.JK"    # Perusahaan Gas Negara
+  - "ADRO.JK"    # Adaro Energy
+  - "SMGR.JK"    # Semen Indonesia
+  - "INTP.JK"    # Indocement Tunggal Prakarsa
+
+  # Industrials & Transportation
+  - "ASII.JK"    # Astra International
+  - "UNTR.JK"    # United Tractors
+  - "JSMR.JK"    # Jasa Marga
+
+  # Others
+  - "GGRM.JK"    # Gudang Garam
+  - "SIDO.JK"    # Industri Jamu dan Farmasi Sido Muncul
+  - "MNCN.JK"    # Media Nusantara Citra
+
+# Trading Capital Configuration
+default_capital_idr: 100000000      # Default capital: 100 million IDR
+
+# Feature Flags
+enable_vwap_filter: false           # Enable/disable VWAP filtering
+enable_atr_tp_sl: false            # Enable/disable ATR-based TP/SL
+enable_telegram_notifications: true # Enable/disable Telegram notifications
+
+# Legacy Parameters (for backward compatibility)
+# These map to the original script parameters
+legacy_params:
+  capital_limit_idr: 500000         # Original capital limit per trade
+  volume_min: 1000000               # Minimum volume threshold
+  move_pct_intraday: 0.8           # Intraday breakout threshold
+  move_pct_overnight: -2.0         # Overnight drop threshold
+  tp_pct_intraday: 1.0             # Fixed % take profit (intraday)
+  sl_pct_intraday: -0.7            # Fixed % stop loss (intraday)
+  tp_pct_overnight: 2.0            # Fixed % take profit (overnight)
+  sl_pct_overnight: -2.0           # Fixed % stop loss (overnight)
+  vwap_max_dev_pct: 1.0            # VWAP maximum deviation %
+  atr_tp_mult_intraday: 1.5        # ATR TP multiplier (intraday)
+  atr_sl_mult_intraday: 1.0        # ATR SL multiplier (intraday)
+  atr_tp_mult_overnight: 2.5       # ATR TP multiplier (overnight)
+  atr_sl_mult_overnight: 1.5       # ATR SL multiplier (overnight)

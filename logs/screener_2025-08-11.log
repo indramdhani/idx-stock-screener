@@ -1,0 +1,1246 @@
+2025-08-11 17:47:09 | INFO     | src.data.collectors.idx_collector:_load_idx_symbols:93 - Loaded 47 IDX symbols
+2025-08-11 17:47:09 | INFO     | src.data.collectors.idx_collector:__init__:64 - IDX Data Collector initialized with 47 symbols
+2025-08-11 17:47:09 | INFO     | __main__:__init__:62 - Application initialized with config: /app/src/config/trading_config.yaml
+2025-08-11 17:47:09 | INFO     | __main__:main:590 - ======================================================================
+2025-08-11 17:47:09 | INFO     | __main__:main:591 - 🇮🇩 Indonesian Stock Screener v1.0.0
+2025-08-11 17:47:09 | INFO     | __main__:main:592 - Mode: both
+2025-08-11 17:47:09 | INFO     | __main__:main:593 - Config: /app/src/config/trading_config.yaml
+2025-08-11 17:47:09 | INFO     | __main__:main:594 - ======================================================================
+2025-08-11 17:47:09 | INFO     | src.data.collectors.idx_collector:_load_idx_symbols:93 - Loaded 47 IDX symbols
+2025-08-11 17:47:09 | INFO     | src.data.collectors.idx_collector:__init__:64 - IDX Data Collector initialized with 47 symbols
+2025-08-11 17:47:09 | INFO     | src.analysis.risk_calculator:__init__:48 - RiskCalculator initialized with max risk per trade: 2.0%
+2025-08-11 17:47:09 | INFO     | src.analysis.screener:__init__:91 - StockScreener initialized with 20 default tickers
+2025-08-11 17:47:09 | INFO     | src.scheduler.workflows:__init__:77 - Workflow orchestrator initialized
+2025-08-11 17:47:09 | INFO     | src.utils.logger:__enter__:175 - Starting intraday_screening (workflow_id=intraday_20250811_174709)
+2025-08-11 17:47:09 | INFO     | src.scheduler.workflows:run_intraday_screening:181 - Starting intraday screening workflow
+2025-08-11 17:47:09 | INFO     | src.scheduler.workflows:run_intraday_screening:186 - Market is closed, skipping intraday screening
+2025-08-11 17:47:09 | INFO     | src.utils.logger:__exit__:185 - Completed intraday_screening in 0.00s
+2025-08-11 17:47:09 | INFO     | src.data.collectors.idx_collector:_load_idx_symbols:93 - Loaded 47 IDX symbols
+2025-08-11 17:47:09 | INFO     | src.data.collectors.idx_collector:__init__:64 - IDX Data Collector initialized with 47 symbols
+2025-08-11 17:47:09 | INFO     | src.analysis.risk_calculator:__init__:48 - RiskCalculator initialized with max risk per trade: 2.0%
+2025-08-11 17:47:09 | INFO     | src.analysis.screener:__init__:91 - StockScreener initialized with 20 default tickers
+2025-08-11 17:47:09 | INFO     | src.scheduler.workflows:__init__:77 - Workflow orchestrator initialized
+2025-08-11 17:47:09 | INFO     | src.utils.logger:__enter__:175 - Starting overnight_screening (workflow_id=overnight_20250811_174709)
+2025-08-11 17:47:09 | INFO     | src.scheduler.workflows:run_overnight_screening:308 - Starting overnight screening workflow
+2025-08-11 17:47:09 | INFO     | src.data.collectors.idx_collector:fetch_filtered_data:466 - Fetching filtered data (price: 1000-50000, volume: 1,500,000.0)
+2025-08-11 17:47:09 | INFO     | src.data.collectors.idx_collector:fetch_realtime_data:117 - Fetching real-time data for 47 symbols
+2025-08-11 17:47:12 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:238 - Data timestamps for ACES.JK:
+2025-08-11 17:47:12 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:240 - Daily data index timezone: Asia/Jakarta
+2025-08-11 17:47:12 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:242 - Intraday data index timezone: Asia/Jakarta
+2025-08-11 17:47:12 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:243 - Stock info last_updated timezone: WIB
+2025-08-11 17:47:12 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:244 - Stock data for ACES.JK before validation:
+2025-08-11 17:47:12 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:245 - Daily data shape: (30, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:12 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:246 - Intraday data shape: (67, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:12 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:247 - Stock info: StockInfo(symbol='ACES.JK', company_name='PT Aspirasi Hidup Indonesia Tbk', sector='Consumer Cyclical', industry='Specialty Retail', market_cap=8163400089600, shares_outstanding=17150000128, currency='IDR', exchange='JKT', last_updated=datetime.datetime(2025, 8, 11, 17, 47, 12, 724580, tzinfo=datetime.timezone(datetime.timedelta(seconds=25200), 'WIB')), data_source='yahoo')
+2025-08-11 17:47:12 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:251 - Last 3 rows of daily data:
+                            Open   High  ...  Stock Splits  Repaired?
+Date                                     ...                         
+2025-08-07 00:00:00+07:00  486.0  488.0  ...           0.0      False
+2025-08-08 00:00:00+07:00  482.0  482.0  ...           0.0      False
+2025-08-11 00:00:00+07:00  472.0  480.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:12 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:253 - Last 3 rows of intraday data:
+                            Open   High  ...  Stock Splits  Repaired?
+Datetime                                 ...                         
+2025-08-11 16:00:00+07:00  476.0  476.0  ...           0.0      False
+2025-08-11 16:05:00+07:00  476.0  476.0  ...           0.0      False
+2025-08-11 16:10:00+07:00  476.0  476.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:13 | DEBUG    | src.data.collectors.idx_collector:_validate_stock_data:295 - Last date timezone: Asia/Jakarta, Current timezone: Asia/Jakarta
+2025-08-11 17:47:13 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:238 - Data timestamps for ARTO.JK:
+2025-08-11 17:47:13 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:240 - Daily data index timezone: Asia/Jakarta
+2025-08-11 17:47:13 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:242 - Intraday data index timezone: Asia/Jakarta
+2025-08-11 17:47:13 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:243 - Stock info last_updated timezone: WIB
+2025-08-11 17:47:13 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:244 - Stock data for ARTO.JK before validation:
+2025-08-11 17:47:13 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:245 - Daily data shape: (30, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:13 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:238 - Data timestamps for ASII.JK:
+2025-08-11 17:47:13 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:246 - Intraday data shape: (67, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:13 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:240 - Daily data index timezone: Asia/Jakarta
+2025-08-11 17:47:13 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:238 - Data timestamps for KLBF.JK:
+2025-08-11 17:47:13 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:247 - Stock info: StockInfo(symbol='ARTO.JK', company_name='PT Bank Jago Tbk', sector='Financial Services', industry='Banks - Regional', market_cap=27722600415232, shares_outstanding=13861300224, currency='IDR', exchange='JKT', last_updated=datetime.datetime(2025, 8, 11, 17, 47, 13, 254427, tzinfo=datetime.timezone(datetime.timedelta(seconds=25200), 'WIB')), data_source='yahoo')
+2025-08-11 17:47:13 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:242 - Intraday data index timezone: Asia/Jakarta
+2025-08-11 17:47:13 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:240 - Daily data index timezone: Asia/Jakarta
+2025-08-11 17:47:13 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:251 - Last 3 rows of daily data:
+                             Open    High  ...  Stock Splits  Repaired?
+Date                                       ...                         
+2025-08-07 00:00:00+07:00  1890.0  1905.0  ...           0.0      False
+2025-08-08 00:00:00+07:00  1885.0  1895.0  ...           0.0      False
+2025-08-11 00:00:00+07:00  1870.0  2020.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:13 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:243 - Stock info last_updated timezone: WIB
+2025-08-11 17:47:13 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:238 - Data timestamps for ADRO.JK:
+2025-08-11 17:47:13 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:242 - Intraday data index timezone: Asia/Jakarta
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:238 - Data timestamps for BBTN.JK:
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:253 - Last 3 rows of intraday data:
+                             Open    High  ...  Stock Splits  Repaired?
+Datetime                                   ...                         
+2025-08-11 16:00:00+07:00  2000.0  2000.0  ...           0.0      False
+2025-08-11 16:05:00+07:00  2000.0  2000.0  ...           0.0      False
+2025-08-11 16:10:00+07:00  2000.0  2000.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:244 - Stock data for ASII.JK before validation:
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:238 - Data timestamps for UNVR.JK:
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:238 - Data timestamps for SIDO.JK:
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:240 - Daily data index timezone: Asia/Jakarta
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:238 - Data timestamps for ADMR.JK:
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:243 - Stock info last_updated timezone: WIB
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:238 - Data timestamps for TOWR.JK:
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_validate_stock_data:295 - Last date timezone: Asia/Jakarta, Current timezone: Asia/Jakarta
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:245 - Daily data shape: (30, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:240 - Daily data index timezone: Asia/Jakarta
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:240 - Daily data index timezone: Asia/Jakarta
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:240 - Daily data index timezone: Asia/Jakarta
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:242 - Intraday data index timezone: Asia/Jakarta
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:240 - Daily data index timezone: Asia/Jakarta
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:244 - Stock data for KLBF.JK before validation:
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:240 - Daily data index timezone: Asia/Jakarta
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:246 - Intraday data shape: (67, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:242 - Intraday data index timezone: Asia/Jakarta
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:242 - Intraday data index timezone: Asia/Jakarta
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:242 - Intraday data index timezone: Asia/Jakarta
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:243 - Stock info last_updated timezone: WIB
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:242 - Intraday data index timezone: Asia/Jakarta
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:245 - Daily data shape: (30, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:242 - Intraday data index timezone: Asia/Jakarta
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:247 - Stock info: StockInfo(symbol='ASII.JK', company_name='PT Astra International Tbk', sector='Industrials', industry='Conglomerates', market_cap=198369624457216, shares_outstanding=40483598336, currency='IDR', exchange='JKT', last_updated=datetime.datetime(2025, 8, 11, 17, 47, 13, 526168, tzinfo=datetime.timezone(datetime.timedelta(seconds=25200), 'WIB')), data_source='yahoo')
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:243 - Stock info last_updated timezone: WIB
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:243 - Stock info last_updated timezone: WIB
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:243 - Stock info last_updated timezone: WIB
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:244 - Stock data for SIDO.JK before validation:
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:243 - Stock info last_updated timezone: WIB
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:246 - Intraday data shape: (67, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:243 - Stock info last_updated timezone: WIB
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:244 - Stock data for BBTN.JK before validation:
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:251 - Last 3 rows of daily data:
+                             Open    High  ...  Stock Splits  Repaired?
+Date                                       ...                         
+2025-08-07 00:00:00+07:00  4920.0  5025.0  ...           0.0      False
+2025-08-08 00:00:00+07:00  4950.0  4990.0  ...           0.0      False
+2025-08-11 00:00:00+07:00  4920.0  4930.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:244 - Stock data for UNVR.JK before validation:
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:244 - Stock data for ADRO.JK before validation:
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:245 - Daily data shape: (30, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:244 - Stock data for ADMR.JK before validation:
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:247 - Stock info: StockInfo(symbol='KLBF.JK', company_name='PT Kalbe Farma Tbk.', sector='Healthcare', industry='Drug Manufacturers - General', market_cap=62188681166848, shares_outstanding=45393199104, currency='IDR', exchange='JKT', last_updated=datetime.datetime(2025, 8, 11, 17, 47, 13, 636078, tzinfo=datetime.timezone(datetime.timedelta(seconds=25200), 'WIB')), data_source='yahoo')
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:244 - Stock data for TOWR.JK before validation:
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:245 - Daily data shape: (30, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:245 - Daily data shape: (30, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:253 - Last 3 rows of intraday data:
+                             Open    High  ...  Stock Splits  Repaired?
+Datetime                                   ...                         
+2025-08-11 16:00:00+07:00  4900.0  4900.0  ...           0.0      False
+2025-08-11 16:05:00+07:00  4900.0  4900.0  ...           0.0      False
+2025-08-11 16:10:00+07:00  4900.0  4900.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:245 - Daily data shape: (30, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:246 - Intraday data shape: (67, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:247 - Stock info: StockInfo(symbol='ADRO.JK', company_name='PT Alamtri Resources Indonesia Tbk', sector='Energy', industry='Thermal Coal', market_cap=53995737448448, shares_outstanding=29831899136, currency='IDR', exchange='JKT', last_updated=datetime.datetime(2025, 8, 11, 17, 47, 13, 972231, tzinfo=datetime.timezone(datetime.timedelta(seconds=25200), 'WIB')), data_source='yahoo')
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:245 - Daily data shape: (30, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:251 - Last 3 rows of daily data:
+                             Open    High  ...  Stock Splits  Repaired?
+Date                                       ...                         
+2025-08-07 00:00:00+07:00  1395.0  1400.0  ...           0.0      False
+2025-08-08 00:00:00+07:00  1390.0  1390.0  ...           0.0      False
+2025-08-11 00:00:00+07:00  1375.0  1385.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:246 - Intraday data shape: (67, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:246 - Intraday data shape: (67, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_validate_stock_data:295 - Last date timezone: Asia/Jakarta, Current timezone: Asia/Jakarta
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:246 - Intraday data shape: (67, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:245 - Daily data shape: (30, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:246 - Intraday data shape: (67, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:251 - Last 3 rows of daily data:
+                             Open    High  ...  Stock Splits  Repaired?
+Date                                       ...                         
+2025-08-07 00:00:00+07:00  1865.0  1890.0  ...           0.0      False
+2025-08-08 00:00:00+07:00  1850.0  1850.0  ...           0.0      False
+2025-08-11 00:00:00+07:00  1800.0  1830.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:247 - Stock info: StockInfo(symbol='BBTN.JK', company_name='PT Bank Tabungan Negara (Persero) Tbk', sector='Financial Services', industry='Banks - Regional', market_cap=16911452602368, shares_outstanding=14034400256, currency='IDR', exchange='JKT', last_updated=datetime.datetime(2025, 8, 11, 17, 47, 14, 156946, tzinfo=datetime.timezone(datetime.timedelta(seconds=25200), 'WIB')), data_source='yahoo')
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:253 - Last 3 rows of intraday data:
+                             Open    High  ...  Stock Splits  Repaired?
+Datetime                                   ...                         
+2025-08-11 16:00:00+07:00  1370.0  1370.0  ...           0.0      False
+2025-08-11 16:05:00+07:00  1370.0  1370.0  ...           0.0      False
+2025-08-11 16:10:00+07:00  1370.0  1370.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:247 - Stock info: StockInfo(symbol='UNVR.JK', company_name='PT Unilever Indonesia Tbk', sector='Consumer Defensive', industry='Household & Personal Products', market_cap=67143999684608, shares_outstanding=38150000640, currency='IDR', exchange='JKT', last_updated=datetime.datetime(2025, 8, 11, 17, 47, 14, 431616, tzinfo=datetime.timezone(datetime.timedelta(seconds=25200), 'WIB')), data_source='yahoo')
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:247 - Stock info: StockInfo(symbol='SIDO.JK', company_name='PT Industri Jamu dan Farmasi Sido Muncul Tbk', sector='Healthcare', industry='Drug Manufacturers - Specialty & Generic', market_cap=15189074247680, shares_outstanding=29782499328, currency='IDR', exchange='JKT', last_updated=datetime.datetime(2025, 8, 11, 17, 47, 14, 477980, tzinfo=datetime.timezone(datetime.timedelta(seconds=25200), 'WIB')), data_source='yahoo')
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:246 - Intraday data shape: (67, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:14 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:247 - Stock info: StockInfo(symbol='TOWR.JK', company_name='PT Sarana Menara Nusantara Tbk.', sector='Communication Services', industry='Telecom Services', market_cap=38118275153920, shares_outstanding=59098099712, currency='IDR', exchange='JKT', last_updated=datetime.datetime(2025, 8, 11, 17, 47, 14, 862758, tzinfo=datetime.timezone(datetime.timedelta(seconds=25200), 'WIB')), data_source='yahoo')
+2025-08-11 17:47:15 | DEBUG    | src.data.collectors.idx_collector:_validate_stock_data:295 - Last date timezone: Asia/Jakarta, Current timezone: Asia/Jakarta
+2025-08-11 17:47:15 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:253 - Last 3 rows of intraday data:
+                             Open    High  ...  Stock Splits  Repaired?
+Datetime                                   ...                         
+2025-08-11 16:00:00+07:00  1810.0  1810.0  ...           0.0      False
+2025-08-11 16:05:00+07:00  1810.0  1810.0  ...           0.0      False
+2025-08-11 16:10:00+07:00  1810.0  1810.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:15 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:251 - Last 3 rows of daily data:
+                             Open    High  ...  Stock Splits  Repaired?
+Date                                       ...                         
+2025-08-07 00:00:00+07:00  1130.0  1130.0  ...           0.0      False
+2025-08-08 00:00:00+07:00  1105.0  1120.0  ...           0.0      False
+2025-08-11 00:00:00+07:00  1110.0  1220.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:15 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:247 - Stock info: StockInfo(symbol='ADMR.JK', company_name='PT Alamtri Minerals Indonesia Tbk', sector='Basic Materials', industry='Coking Coal', market_cap=45379353575424, shares_outstanding=40882298880, currency='IDR', exchange='JKT', last_updated=datetime.datetime(2025, 8, 11, 17, 47, 14, 854371, tzinfo=datetime.timezone(datetime.timedelta(seconds=25200), 'WIB')), data_source='yahoo')
+2025-08-11 17:47:15 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:251 - Last 3 rows of daily data:
+                            Open   High  ...  Stock Splits  Repaired?
+Date                                     ...                         
+2025-08-07 00:00:00+07:00  505.0  510.0  ...           0.0      False
+2025-08-08 00:00:00+07:00  505.0  510.0  ...           0.0      False
+2025-08-11 00:00:00+07:00  510.0  515.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:15 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:251 - Last 3 rows of daily data:
+                             Open    High  ...  Stock Splits  Repaired?
+Date                                       ...                         
+2025-08-07 00:00:00+07:00  1735.0  1770.0  ...           0.0      False
+2025-08-08 00:00:00+07:00  1765.0  1795.0  ...           0.0      False
+2025-08-11 00:00:00+07:00  1755.0  1780.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:15 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:251 - Last 3 rows of daily data:
+                            Open   High  ...  Stock Splits  Repaired?
+Date                                     ...                         
+2025-08-07 00:00:00+07:00  615.0  625.0  ...           0.0      False
+2025-08-08 00:00:00+07:00  625.0  625.0  ...           0.0      False
+2025-08-11 00:00:00+07:00  625.0  650.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:15 | DEBUG    | src.data.collectors.idx_collector:_validate_stock_data:295 - Last date timezone: Asia/Jakarta, Current timezone: Asia/Jakarta
+2025-08-11 17:47:15 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:253 - Last 3 rows of intraday data:
+                             Open    High  ...  Stock Splits  Repaired?
+Datetime                                   ...                         
+2025-08-11 16:00:00+07:00  1205.0  1205.0  ...           0.0      False
+2025-08-11 16:05:00+07:00  1205.0  1205.0  ...           0.0      False
+2025-08-11 16:10:00+07:00  1205.0  1205.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:15 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:251 - Last 3 rows of daily data:
+                             Open    High  ...  Stock Splits  Repaired?
+Date                                       ...                         
+2025-08-07 00:00:00+07:00  1120.0  1155.0  ...           0.0      False
+2025-08-08 00:00:00+07:00  1155.0  1160.0  ...           0.0      False
+2025-08-11 00:00:00+07:00  1120.0  1135.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:15 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:253 - Last 3 rows of intraday data:
+                            Open   High  ...  Stock Splits  Repaired?
+Datetime                                 ...                         
+2025-08-11 16:00:00+07:00  645.0  645.0  ...           0.0      False
+2025-08-11 16:05:00+07:00  645.0  645.0  ...           0.0      False
+2025-08-11 16:10:00+07:00  645.0  645.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:15 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:253 - Last 3 rows of intraday data:
+                             Open    High  ...  Stock Splits  Repaired?
+Datetime                                   ...                         
+2025-08-11 16:00:00+07:00  1760.0  1760.0  ...           0.0      False
+2025-08-11 16:05:00+07:00  1760.0  1760.0  ...           0.0      False
+2025-08-11 16:10:00+07:00  1760.0  1760.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:15 | DEBUG    | src.data.collectors.idx_collector:_validate_stock_data:295 - Last date timezone: Asia/Jakarta, Current timezone: Asia/Jakarta
+2025-08-11 17:47:15 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:253 - Last 3 rows of intraday data:
+                            Open   High  ...  Stock Splits  Repaired?
+Datetime                                 ...                         
+2025-08-11 16:00:00+07:00  510.0  510.0  ...           0.0      False
+2025-08-11 16:05:00+07:00  510.0  510.0  ...           0.0      False
+2025-08-11 16:10:00+07:00  510.0  510.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:15 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:253 - Last 3 rows of intraday data:
+                             Open    High  ...  Stock Splits  Repaired?
+Datetime                                   ...                         
+2025-08-11 16:00:00+07:00  1110.0  1110.0  ...           0.0      False
+2025-08-11 16:05:00+07:00  1110.0  1110.0  ...           0.0      False
+2025-08-11 16:10:00+07:00  1110.0  1110.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:15 | DEBUG    | src.data.collectors.idx_collector:_validate_stock_data:295 - Last date timezone: Asia/Jakarta, Current timezone: Asia/Jakarta
+2025-08-11 17:47:15 | DEBUG    | src.data.collectors.idx_collector:_validate_stock_data:295 - Last date timezone: Asia/Jakarta, Current timezone: Asia/Jakarta
+2025-08-11 17:47:15 | DEBUG    | src.data.collectors.idx_collector:_validate_stock_data:295 - Last date timezone: Asia/Jakarta, Current timezone: Asia/Jakarta
+2025-08-11 17:47:15 | DEBUG    | src.data.collectors.idx_collector:_validate_stock_data:295 - Last date timezone: Asia/Jakarta, Current timezone: Asia/Jakarta
+2025-08-11 17:47:16 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:238 - Data timestamps for INTP.JK:
+2025-08-11 17:47:16 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:240 - Daily data index timezone: Asia/Jakarta
+2025-08-11 17:47:16 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:242 - Intraday data index timezone: Asia/Jakarta
+2025-08-11 17:47:16 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:243 - Stock info last_updated timezone: WIB
+2025-08-11 17:47:16 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:244 - Stock data for INTP.JK before validation:
+2025-08-11 17:47:16 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:245 - Daily data shape: (30, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:16 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:246 - Intraday data shape: (67, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:16 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:247 - Stock info: StockInfo(symbol='INTP.JK', company_name='PT Indocement Tunggal Prakarsa Tbk', sector='Basic Materials', industry='Building Materials', market_cap=23378740117504, shares_outstanding=3515599872, currency='IDR', exchange='JKT', last_updated=datetime.datetime(2025, 8, 11, 17, 47, 16, 526211, tzinfo=datetime.timezone(datetime.timedelta(seconds=25200), 'WIB')), data_source='yahoo')
+2025-08-11 17:47:16 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:251 - Last 3 rows of daily data:
+                             Open    High  ...  Stock Splits  Repaired?
+Date                                       ...                         
+2025-08-07 00:00:00+07:00  6125.0  6200.0  ...           0.0      False
+2025-08-08 00:00:00+07:00  6125.0  6175.0  ...           0.0      False
+2025-08-11 00:00:00+07:00  6175.0  6750.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:16 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:253 - Last 3 rows of intraday data:
+                             Open    High  ...  Stock Splits  Repaired?
+Datetime                                   ...                         
+2025-08-11 16:00:00+07:00  6650.0  6650.0  ...           0.0      False
+2025-08-11 16:05:00+07:00  6650.0  6650.0  ...           0.0      False
+2025-08-11 16:10:00+07:00  6650.0  6650.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:16 | DEBUG    | src.data.collectors.idx_collector:_validate_stock_data:295 - Last date timezone: Asia/Jakarta, Current timezone: Asia/Jakarta
+2025-08-11 17:47:17 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:238 - Data timestamps for PGEO.JK:
+2025-08-11 17:47:17 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:240 - Daily data index timezone: Asia/Jakarta
+2025-08-11 17:47:17 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:242 - Intraday data index timezone: Asia/Jakarta
+2025-08-11 17:47:17 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:243 - Stock info last_updated timezone: WIB
+2025-08-11 17:47:17 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:244 - Stock data for PGEO.JK before validation:
+2025-08-11 17:47:17 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:245 - Daily data shape: (30, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:17 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:246 - Intraday data shape: (67, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:17 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:247 - Stock info: StockInfo(symbol='PGEO.JK', company_name='PT Pertamina Geothermal Energy Tbk', sector='Utilities', industry='Utilities - Renewable', market_cap=64960021397504, shares_outstanding=41507999744, currency='IDR', exchange='JKT', last_updated=datetime.datetime(2025, 8, 11, 17, 47, 17, 356973, tzinfo=datetime.timezone(datetime.timedelta(seconds=25200), 'WIB')), data_source='yahoo')
+2025-08-11 17:47:17 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:238 - Data timestamps for MAPI.JK:
+2025-08-11 17:47:18 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:238 - Data timestamps for BRPT.JK:
+2025-08-11 17:47:18 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:251 - Last 3 rows of daily data:
+                             Open    High  ...  Stock Splits  Repaired?
+Date                                       ...                         
+2025-08-07 00:00:00+07:00  1615.0  1635.0  ...           0.0      False
+2025-08-08 00:00:00+07:00  1630.0  1650.0  ...           0.0      False
+2025-08-11 00:00:00+07:00  1635.0  1645.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:18 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:240 - Daily data index timezone: Asia/Jakarta
+2025-08-11 17:47:18 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:240 - Daily data index timezone: Asia/Jakarta
+2025-08-11 17:47:18 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:238 - Data timestamps for MBMA.JK:
+2025-08-11 17:47:18 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:238 - Data timestamps for SMRA.JK:
+2025-08-11 17:47:18 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:242 - Intraday data index timezone: Asia/Jakarta
+2025-08-11 17:47:18 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:238 - Data timestamps for BBCA.JK:
+2025-08-11 17:47:18 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:253 - Last 3 rows of intraday data:
+                             Open    High  ...  Stock Splits  Repaired?
+Datetime                                   ...                         
+2025-08-11 16:00:00+07:00  1565.0  1565.0  ...           0.0      False
+2025-08-11 16:05:00+07:00  1565.0  1565.0  ...           0.0      False
+2025-08-11 16:10:00+07:00  1565.0  1565.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:18 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:242 - Intraday data index timezone: Asia/Jakarta
+2025-08-11 17:47:18 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:238 - Data timestamps for MEDC.JK:
+2025-08-11 17:47:18 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:240 - Daily data index timezone: Asia/Jakarta
+2025-08-11 17:47:18 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:240 - Daily data index timezone: Asia/Jakarta
+2025-08-11 17:47:18 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:243 - Stock info last_updated timezone: WIB
+2025-08-11 17:47:18 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:240 - Daily data index timezone: Asia/Jakarta
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_validate_stock_data:295 - Last date timezone: Asia/Jakarta, Current timezone: Asia/Jakarta
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:238 - Data timestamps for BRIS.JK:
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:243 - Stock info last_updated timezone: WIB
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:240 - Daily data index timezone: Asia/Jakarta
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:242 - Intraday data index timezone: Asia/Jakarta
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:242 - Intraday data index timezone: Asia/Jakarta
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:244 - Stock data for MAPI.JK before validation:
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:242 - Intraday data index timezone: Asia/Jakarta
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:240 - Daily data index timezone: Asia/Jakarta
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:244 - Stock data for BRPT.JK before validation:
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:242 - Intraday data index timezone: Asia/Jakarta
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:243 - Stock info last_updated timezone: WIB
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:244 - Stock data for MBMA.JK before validation:
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:245 - Daily data shape: (30, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:246 - Intraday data shape: (66, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:243 - Stock info last_updated timezone: WIB
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:245 - Daily data shape: (30, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:246 - Intraday data shape: (67, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:243 - Stock info last_updated timezone: WIB
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:245 - Daily data shape: (30, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:242 - Intraday data index timezone: Asia/Jakarta
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:247 - Stock info: StockInfo(symbol='MAPI.JK', company_name='PT. Mitra Adiperkasa Tbk', sector='Consumer Cyclical', industry='Department Stores', market_cap=20169000747008, shares_outstanding=16600000512, currency='IDR', exchange='JKT', last_updated=datetime.datetime(2025, 8, 11, 17, 47, 17, 985177, tzinfo=datetime.timezone(datetime.timedelta(seconds=25200), 'WIB')), data_source='yahoo')
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:244 - Stock data for BBCA.JK before validation:
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:243 - Stock info last_updated timezone: WIB
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:247 - Stock info: StockInfo(symbol='BRPT.JK', company_name='PT Barito Pacific Tbk', sector='Basic Materials', industry='Chemicals', market_cap=220205338853376, shares_outstanding=93704396800, currency='IDR', exchange='JKT', last_updated=datetime.datetime(2025, 8, 11, 17, 47, 18, 36948, tzinfo=datetime.timezone(datetime.timedelta(seconds=25200), 'WIB')), data_source='yahoo')
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:244 - Stock data for SMRA.JK before validation:
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:246 - Intraday data shape: (67, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:243 - Stock info last_updated timezone: WIB
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:251 - Last 3 rows of daily data:
+                             Open    High  ...  Stock Splits  Repaired?
+Date                                       ...                         
+2025-08-07 00:00:00+07:00  1185.0  1225.0  ...           0.0      False
+2025-08-08 00:00:00+07:00  1220.0  1220.0  ...           0.0      False
+2025-08-11 00:00:00+07:00  1205.0  1220.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:245 - Daily data shape: (30, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:244 - Stock data for MEDC.JK before validation:
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:245 - Daily data shape: (30, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:247 - Stock info: StockInfo(symbol='MBMA.JK', company_name='PT Merdeka Battery Materials Tbk.', sector='Basic Materials', industry='Other Precious Metals & Mining', market_cap=46869828861952, shares_outstanding=107994996736, currency='IDR', exchange='JKT', last_updated=datetime.datetime(2025, 8, 11, 17, 47, 18, 496976, tzinfo=datetime.timezone(datetime.timedelta(seconds=25200), 'WIB')), data_source='yahoo')
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:244 - Stock data for BRIS.JK before validation:
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:246 - Intraday data shape: (67, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:245 - Daily data shape: (30, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:251 - Last 3 rows of daily data:
+                             Open    High  ...  Stock Splits  Repaired?
+Date                                       ...                         
+2025-08-07 00:00:00+07:00  2520.0  2530.0  ...           0.0      False
+2025-08-08 00:00:00+07:00  2700.0  2700.0  ...           0.0      False
+2025-08-11 00:00:00+07:00  2480.0  2490.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:253 - Last 3 rows of intraday data:
+                             Open    High  ...  Stock Splits  Repaired?
+Datetime                                   ...                         
+2025-08-11 15:45:00+07:00  1215.0  1215.0  ...           0.0      False
+2025-08-11 16:00:00+07:00  1215.0  1215.0  ...           0.0      False
+2025-08-11 16:05:00+07:00  1215.0  1215.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:246 - Intraday data shape: (67, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:245 - Daily data shape: (30, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:251 - Last 3 rows of daily data:
+                            Open   High  ...  Stock Splits  Repaired?
+Date                                     ...                         
+2025-08-07 00:00:00+07:00  480.0  486.0  ...           0.0      False
+2025-08-08 00:00:00+07:00  440.0  442.0  ...           0.0      False
+2025-08-11 00:00:00+07:00  430.0  450.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:247 - Stock info: StockInfo(symbol='BBCA.JK', company_name='PT Bank Central Asia Tbk', sector='Financial Services', industry='Banks - Regional', market_cap=1053761837465600, shares_outstanding=123247001600, currency='IDR', exchange='JKT', last_updated=datetime.datetime(2025, 8, 11, 17, 47, 18, 740893, tzinfo=datetime.timezone(datetime.timedelta(seconds=25200), 'WIB')), data_source='yahoo')
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:246 - Intraday data shape: (67, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:253 - Last 3 rows of intraday data:
+                             Open    High  ...  Stock Splits  Repaired?
+Datetime                                   ...                         
+2025-08-11 16:00:00+07:00  2350.0  2350.0  ...           0.0      False
+2025-08-11 16:05:00+07:00  2350.0  2350.0  ...           0.0      False
+2025-08-11 16:10:00+07:00  2350.0  2350.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_validate_stock_data:295 - Last date timezone: Asia/Jakarta, Current timezone: Asia/Jakarta
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:247 - Stock info: StockInfo(symbol='SMRA.JK', company_name='PT Summarecon Agung Tbk', sector='Real Estate', industry='Real Estate - Development', market_cap=7296801308672, shares_outstanding=16508600320, currency='IDR', exchange='JKT', last_updated=datetime.datetime(2025, 8, 11, 17, 47, 18, 542489, tzinfo=datetime.timezone(datetime.timedelta(seconds=25200), 'WIB')), data_source='yahoo')
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:246 - Intraday data shape: (67, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:238 - Data timestamps for GGRM.JK:
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:253 - Last 3 rows of intraday data:
+                            Open   High  ...  Stock Splits  Repaired?
+Datetime                                 ...                         
+2025-08-11 16:00:00+07:00  434.0  434.0  ...           0.0      False
+2025-08-11 16:05:00+07:00  434.0  434.0  ...           0.0      False
+2025-08-11 16:10:00+07:00  434.0  434.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:247 - Stock info: StockInfo(symbol='MEDC.JK', company_name='PT Medco Energi Internasional Tbk', sector='Energy', industry='Oil & Gas E&P', market_cap=30606920515584, shares_outstanding=24682999808, currency='IDR', exchange='JKT', last_updated=datetime.datetime(2025, 8, 11, 17, 47, 18, 854623, tzinfo=datetime.timezone(datetime.timedelta(seconds=25200), 'WIB')), data_source='yahoo')
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:251 - Last 3 rows of daily data:
+                             Open    High  ...  Stock Splits  Repaired?
+Date                                       ...                         
+2025-08-07 00:00:00+07:00  8325.0  8350.0  ...           0.0      False
+2025-08-08 00:00:00+07:00  8325.0  8400.0  ...           0.0      False
+2025-08-11 00:00:00+07:00  8500.0  8550.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_validate_stock_data:295 - Last date timezone: Asia/Jakarta, Current timezone: Asia/Jakarta
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:247 - Stock info: StockInfo(symbol='BRIS.JK', company_name='PT Bank Syariah Indonesia Tbk', sector='Financial Services', industry='Banks - Regional', market_cap=125932987744256, shares_outstanding=46129299456, currency='IDR', exchange='JKT', last_updated=datetime.datetime(2025, 8, 11, 17, 47, 19, 12101, tzinfo=datetime.timezone(datetime.timedelta(seconds=25200), 'WIB')), data_source='yahoo')
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:251 - Last 3 rows of daily data:
+                            Open   High  ...  Stock Splits  Repaired?
+Date                                     ...                         
+2025-08-07 00:00:00+07:00  422.0  424.0  ...           0.0      False
+2025-08-08 00:00:00+07:00  420.0  422.0  ...           0.0      False
+2025-08-11 00:00:00+07:00  418.0  448.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:240 - Daily data index timezone: Asia/Jakarta
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_validate_stock_data:295 - Last date timezone: Asia/Jakarta, Current timezone: Asia/Jakarta
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:251 - Last 3 rows of daily data:
+                             Open    High  ...  Stock Splits  Repaired?
+Date                                       ...                         
+2025-08-07 00:00:00+07:00  1170.0  1255.0  ...           0.0      False
+2025-08-08 00:00:00+07:00  1225.0  1225.0  ...           0.0      False
+2025-08-11 00:00:00+07:00  1205.0  1250.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:253 - Last 3 rows of intraday data:
+                             Open    High  ...  Stock Splits  Repaired?
+Datetime                                   ...                         
+2025-08-11 16:00:00+07:00  8550.0  8550.0  ...           0.0      False
+2025-08-11 16:05:00+07:00  8550.0  8550.0  ...           0.0      False
+2025-08-11 16:10:00+07:00  8550.0  8550.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:251 - Last 3 rows of daily data:
+                             Open    High  ...  Stock Splits  Repaired?
+Date                                       ...                         
+2025-08-07 00:00:00+07:00  2740.0  2770.0  ...           0.0      False
+2025-08-08 00:00:00+07:00  2740.0  2740.0  ...           0.0      False
+2025-08-11 00:00:00+07:00  2710.0  2750.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:253 - Last 3 rows of intraday data:
+                            Open   High  ...  Stock Splits  Repaired?
+Datetime                                 ...                         
+2025-08-11 16:00:00+07:00  442.0  442.0  ...           0.0      False
+2025-08-11 16:05:00+07:00  442.0  442.0  ...           0.0      False
+2025-08-11 16:10:00+07:00  442.0  442.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:242 - Intraday data index timezone: Asia/Jakarta
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:253 - Last 3 rows of intraday data:
+                             Open    High  ...  Stock Splits  Repaired?
+Datetime                                   ...                         
+2025-08-11 16:00:00+07:00  1240.0  1240.0  ...           0.0      False
+2025-08-11 16:05:00+07:00  1240.0  1240.0  ...           0.0      False
+2025-08-11 16:10:00+07:00  1240.0  1240.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_validate_stock_data:295 - Last date timezone: Asia/Jakarta, Current timezone: Asia/Jakarta
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_validate_stock_data:295 - Last date timezone: Asia/Jakarta, Current timezone: Asia/Jakarta
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:253 - Last 3 rows of intraday data:
+                             Open    High  ...  Stock Splits  Repaired?
+Datetime                                   ...                         
+2025-08-11 16:00:00+07:00  2730.0  2730.0  ...           0.0      False
+2025-08-11 16:05:00+07:00  2730.0  2730.0  ...           0.0      False
+2025-08-11 16:10:00+07:00  2730.0  2730.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:243 - Stock info last_updated timezone: WIB
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_validate_stock_data:295 - Last date timezone: Asia/Jakarta, Current timezone: Asia/Jakarta
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_validate_stock_data:295 - Last date timezone: Asia/Jakarta, Current timezone: Asia/Jakarta
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:244 - Stock data for GGRM.JK before validation:
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:245 - Daily data shape: (30, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:246 - Intraday data shape: (64, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:247 - Stock info: StockInfo(symbol='GGRM.JK', company_name='PT Gudang Garam Tbk', sector='Consumer Defensive', industry='Tobacco', market_cap=16547174154240, shares_outstanding=1924089984, currency='IDR', exchange='JKT', last_updated=datetime.datetime(2025, 8, 11, 17, 47, 19, 497675, tzinfo=datetime.timezone(datetime.timedelta(seconds=25200), 'WIB')), data_source='yahoo')
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:251 - Last 3 rows of daily data:
+                             Open    High  ...  Stock Splits  Repaired?
+Date                                       ...                         
+2025-08-07 00:00:00+07:00  8725.0  8850.0  ...           0.0      False
+2025-08-08 00:00:00+07:00  8775.0  8800.0  ...           0.0      False
+2025-08-11 00:00:00+07:00  8575.0  8675.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:253 - Last 3 rows of intraday data:
+                             Open    High  ...  Stock Splits  Repaired?
+Datetime                                   ...                         
+2025-08-11 16:00:00+07:00  8600.0  8600.0  ...           0.0      False
+2025-08-11 16:05:00+07:00  8600.0  8600.0  ...           0.0      False
+2025-08-11 16:10:00+07:00  8600.0  8600.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:19 | DEBUG    | src.data.collectors.idx_collector:_validate_stock_data:295 - Last date timezone: Asia/Jakarta, Current timezone: Asia/Jakarta
+2025-08-11 17:47:20 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:238 - Data timestamps for PGAS.JK:
+2025-08-11 17:47:20 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:240 - Daily data index timezone: Asia/Jakarta
+2025-08-11 17:47:20 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:242 - Intraday data index timezone: Asia/Jakarta
+2025-08-11 17:47:20 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:243 - Stock info last_updated timezone: WIB
+2025-08-11 17:47:20 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:244 - Stock data for PGAS.JK before validation:
+2025-08-11 17:47:20 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:245 - Daily data shape: (30, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:20 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:246 - Intraday data shape: (67, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:20 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:247 - Stock info: StockInfo(symbol='PGAS.JK', company_name='PT Perusahaan Gas Negara Tbk', sector='Utilities', industry='Utilities - Regulated Gas', market_cap=40483304767488, shares_outstanding=24241500160, currency='IDR', exchange='JKT', last_updated=datetime.datetime(2025, 8, 11, 17, 47, 20, 256504, tzinfo=datetime.timezone(datetime.timedelta(seconds=25200), 'WIB')), data_source='yahoo')
+2025-08-11 17:47:20 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:251 - Last 3 rows of daily data:
+                             Open    High  ...  Stock Splits  Repaired?
+Date                                       ...                         
+2025-08-07 00:00:00+07:00  1690.0  1695.0  ...           0.0      False
+2025-08-08 00:00:00+07:00  1695.0  1715.0  ...           0.0      False
+2025-08-11 00:00:00+07:00  1685.0  1695.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:20 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:253 - Last 3 rows of intraday data:
+                             Open    High  ...  Stock Splits  Repaired?
+Datetime                                   ...                         
+2025-08-11 16:00:00+07:00  1670.0  1670.0  ...           0.0      False
+2025-08-11 16:05:00+07:00  1670.0  1670.0  ...           0.0      False
+2025-08-11 16:10:00+07:00  1670.0  1670.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:20 | DEBUG    | src.data.collectors.idx_collector:_validate_stock_data:295 - Last date timezone: Asia/Jakarta, Current timezone: Asia/Jakarta
+2025-08-11 17:47:21 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:238 - Data timestamps for ESSA.JK:
+2025-08-11 17:47:21 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:240 - Daily data index timezone: Asia/Jakarta
+2025-08-11 17:47:21 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:242 - Intraday data index timezone: Asia/Jakarta
+2025-08-11 17:47:21 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:243 - Stock info last_updated timezone: WIB
+2025-08-11 17:47:21 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:244 - Stock data for ESSA.JK before validation:
+2025-08-11 17:47:21 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:245 - Daily data shape: (30, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:21 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:246 - Intraday data shape: (67, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:21 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:247 - Stock info: StockInfo(symbol='ESSA.JK', company_name='PT ESSA Industries Indonesia Tbk.', sector='Basic Materials', industry='Chemicals', market_cap=10250065281024, shares_outstanding=17226999808, currency='IDR', exchange='JKT', last_updated=datetime.datetime(2025, 8, 11, 17, 47, 21, 326151, tzinfo=datetime.timezone(datetime.timedelta(seconds=25200), 'WIB')), data_source='yahoo')
+2025-08-11 17:47:21 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:251 - Last 3 rows of daily data:
+                            Open   High  ...  Stock Splits  Repaired?
+Date                                     ...                         
+2025-08-07 00:00:00+07:00  630.0  635.0  ...           0.0      False
+2025-08-08 00:00:00+07:00  620.0  620.0  ...           0.0      False
+2025-08-11 00:00:00+07:00  600.0  605.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:21 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:253 - Last 3 rows of intraday data:
+                            Open   High  ...  Stock Splits  Repaired?
+Datetime                                 ...                         
+2025-08-11 16:00:00+07:00  595.0  595.0  ...           0.0      False
+2025-08-11 16:05:00+07:00  595.0  595.0  ...           0.0      False
+2025-08-11 16:10:00+07:00  595.0  595.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:21 | DEBUG    | src.data.collectors.idx_collector:_validate_stock_data:295 - Last date timezone: Asia/Jakarta, Current timezone: Asia/Jakarta
+2025-08-11 17:47:22 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:238 - Data timestamps for CPIN.JK:
+2025-08-11 17:47:22 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:240 - Daily data index timezone: Asia/Jakarta
+2025-08-11 17:47:22 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:242 - Intraday data index timezone: Asia/Jakarta
+2025-08-11 17:47:22 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:243 - Stock info last_updated timezone: WIB
+2025-08-11 17:47:22 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:244 - Stock data for CPIN.JK before validation:
+2025-08-11 17:47:22 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:245 - Daily data shape: (30, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:22 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:246 - Intraday data shape: (67, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:22 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:247 - Stock info: StockInfo(symbol='CPIN.JK', company_name='PT Charoen Pokphand Indonesia Tbk', sector='Consumer Defensive', industry='Farm Products', market_cap=73135080603648, shares_outstanding=16398000128, currency='IDR', exchange='JKT', last_updated=datetime.datetime(2025, 8, 11, 17, 47, 22, 109864, tzinfo=datetime.timezone(datetime.timedelta(seconds=25200), 'WIB')), data_source='yahoo')
+2025-08-11 17:47:22 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:238 - Data timestamps for CTRA.JK:
+2025-08-11 17:47:22 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:251 - Last 3 rows of daily data:
+                             Open    High  ...  Stock Splits  Repaired?
+Date                                       ...                         
+2025-08-07 00:00:00+07:00  4620.0  4640.0  ...           0.0      False
+2025-08-08 00:00:00+07:00  4530.0  4560.0  ...           0.0      False
+2025-08-11 00:00:00+07:00  4500.0  4540.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:22 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:240 - Daily data index timezone: Asia/Jakarta
+2025-08-11 17:47:22 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:253 - Last 3 rows of intraday data:
+                             Open    High  ...  Stock Splits  Repaired?
+Datetime                                   ...                         
+2025-08-11 16:00:00+07:00  4460.0  4460.0  ...           0.0      False
+2025-08-11 16:05:00+07:00  4460.0  4460.0  ...           0.0      False
+2025-08-11 16:10:00+07:00  4460.0  4460.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:22 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:242 - Intraday data index timezone: Asia/Jakarta
+2025-08-11 17:47:22 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:238 - Data timestamps for BMRI.JK:
+2025-08-11 17:47:22 | DEBUG    | src.data.collectors.idx_collector:_validate_stock_data:295 - Last date timezone: Asia/Jakarta, Current timezone: Asia/Jakarta
+2025-08-11 17:47:23 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:243 - Stock info last_updated timezone: WIB
+2025-08-11 17:47:23 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:240 - Daily data index timezone: Asia/Jakarta
+2025-08-11 17:47:23 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:238 - Data timestamps for INKP.JK:
+2025-08-11 17:47:23 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:238 - Data timestamps for ANTM.JK:
+2025-08-11 17:47:23 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:244 - Stock data for CTRA.JK before validation:
+2025-08-11 17:47:23 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:238 - Data timestamps for ICBP.JK:
+2025-08-11 17:47:23 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:242 - Intraday data index timezone: Asia/Jakarta
+2025-08-11 17:47:23 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:240 - Daily data index timezone: Asia/Jakarta
+2025-08-11 17:47:23 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:240 - Daily data index timezone: Asia/Jakarta
+2025-08-11 17:47:23 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:245 - Daily data shape: (30, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:23 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:238 - Data timestamps for INCO.JK:
+2025-08-11 17:47:23 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:240 - Daily data index timezone: Asia/Jakarta
+2025-08-11 17:47:23 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:238 - Data timestamps for TLKM.JK:
+2025-08-11 17:47:23 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:243 - Stock info last_updated timezone: WIB
+2025-08-11 17:47:23 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:242 - Intraday data index timezone: Asia/Jakarta
+2025-08-11 17:47:23 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:242 - Intraday data index timezone: Asia/Jakarta
+2025-08-11 17:47:23 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:246 - Intraday data shape: (67, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:23 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:240 - Daily data index timezone: Asia/Jakarta
+2025-08-11 17:47:23 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:242 - Intraday data index timezone: Asia/Jakarta
+2025-08-11 17:47:23 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:240 - Daily data index timezone: Asia/Jakarta
+2025-08-11 17:47:23 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:244 - Stock data for BMRI.JK before validation:
+2025-08-11 17:47:23 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:243 - Stock info last_updated timezone: WIB
+2025-08-11 17:47:23 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:243 - Stock info last_updated timezone: WIB
+2025-08-11 17:47:23 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:247 - Stock info: StockInfo(symbol='CTRA.JK', company_name='PT Ciputra Development Tbk', sector='Real Estate', industry='Real Estate - Development', market_cap=18535701020672, shares_outstanding=18535700480, currency='IDR', exchange='JKT', last_updated=datetime.datetime(2025, 8, 11, 17, 47, 22, 457658, tzinfo=datetime.timezone(datetime.timedelta(seconds=25200), 'WIB')), data_source='yahoo')
+2025-08-11 17:47:23 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:242 - Intraday data index timezone: Asia/Jakarta
+2025-08-11 17:47:24 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:243 - Stock info last_updated timezone: WIB
+2025-08-11 17:47:24 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:242 - Intraday data index timezone: Asia/Jakarta
+2025-08-11 17:47:24 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:245 - Daily data shape: (30, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:24 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:244 - Stock data for INKP.JK before validation:
+2025-08-11 17:47:24 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:244 - Stock data for ANTM.JK before validation:
+2025-08-11 17:47:24 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:251 - Last 3 rows of daily data:
+                            Open    High  ...  Stock Splits  Repaired?
+Date                                      ...                         
+2025-08-07 00:00:00+07:00  920.0   940.0  ...           0.0      False
+2025-08-08 00:00:00+07:00  935.0   955.0  ...           0.0      False
+2025-08-11 00:00:00+07:00  960.0  1010.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:24 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:243 - Stock info last_updated timezone: WIB
+2025-08-11 17:47:24 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:244 - Stock data for ICBP.JK before validation:
+2025-08-11 17:47:24 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:243 - Stock info last_updated timezone: WIB
+2025-08-11 17:47:24 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:246 - Intraday data shape: (67, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:24 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:245 - Daily data shape: (30, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:24 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:245 - Daily data shape: (30, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:24 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:244 - Stock data for INCO.JK before validation:
+2025-08-11 17:47:24 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:245 - Daily data shape: (30, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:24 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:244 - Stock data for TLKM.JK before validation:
+2025-08-11 17:47:24 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:253 - Last 3 rows of intraday data:
+                             Open    High  ...  Stock Splits  Repaired?
+Datetime                                   ...                         
+2025-08-11 16:00:00+07:00  1000.0  1000.0  ...           0.0      False
+2025-08-11 16:05:00+07:00  1000.0  1000.0  ...           0.0      False
+2025-08-11 16:10:00+07:00  1000.0  1000.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:24 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:247 - Stock info: StockInfo(symbol='BMRI.JK', company_name='PT Bank Mandiri (Persero) Tbk', sector='Financial Services', industry='Banks - Regional', market_cap=440533184937984, shares_outstanding=93333299200, currency='IDR', exchange='JKT', last_updated=datetime.datetime(2025, 8, 11, 17, 47, 22, 825096, tzinfo=datetime.timezone(datetime.timedelta(seconds=25200), 'WIB')), data_source='yahoo')
+2025-08-11 17:47:24 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:246 - Intraday data shape: (67, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:24 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:246 - Intraday data shape: (67, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:24 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:245 - Daily data shape: (30, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:24 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:246 - Intraday data shape: (67, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:24 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:245 - Daily data shape: (30, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:24 | DEBUG    | src.data.collectors.idx_collector:_validate_stock_data:295 - Last date timezone: Asia/Jakarta, Current timezone: Asia/Jakarta
+2025-08-11 17:47:24 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:247 - Stock info: StockInfo(symbol='INKP.JK', company_name='PT Indah Kiat Pulp & Paper Tbk', sector='Basic Materials', industry='Paper & Paper Products', market_cap=44451711942656, shares_outstanding=5470980096, currency='IDR', exchange='JKT', last_updated=datetime.datetime(2025, 8, 11, 17, 47, 23, 240635, tzinfo=datetime.timezone(datetime.timedelta(seconds=25200), 'WIB')), data_source='yahoo')
+2025-08-11 17:47:24 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:251 - Last 3 rows of daily data:
+                             Open    High  ...  Stock Splits  Repaired?
+Date                                       ...                         
+2025-08-07 00:00:00+07:00  4740.0  4740.0  ...           0.0      False
+2025-08-08 00:00:00+07:00  4680.0  4700.0  ...           0.0      False
+2025-08-11 00:00:00+07:00  4710.0  4780.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:24 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:247 - Stock info: StockInfo(symbol='ANTM.JK', company_name='PT Aneka Tambang Tbk', sector='Basic Materials', industry='Gold', market_cap=70650551074816, shares_outstanding=24030799872, currency='IDR', exchange='JKT', last_updated=datetime.datetime(2025, 8, 11, 17, 47, 23, 488218, tzinfo=datetime.timezone(datetime.timedelta(seconds=25200), 'WIB')), data_source='yahoo')
+2025-08-11 17:47:24 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:246 - Intraday data shape: (67, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:24 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:238 - Data timestamps for JSMR.JK:
+2025-08-11 17:47:24 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:247 - Stock info: StockInfo(symbol='ICBP.JK', company_name='PT Indofood CBP Sukses Makmur Tbk', sector='Consumer Defensive', industry='Packaged Foods', market_cap=111371144396800, shares_outstanding=11661899776, currency='IDR', exchange='JKT', last_updated=datetime.datetime(2025, 8, 11, 17, 47, 23, 730790, tzinfo=datetime.timezone(datetime.timedelta(seconds=25200), 'WIB')), data_source='yahoo')
+2025-08-11 17:47:24 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:246 - Intraday data shape: (67, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:24 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:251 - Last 3 rows of daily data:
+                             Open    High  ...  Stock Splits  Repaired?
+Date                                       ...                         
+2025-08-07 00:00:00+07:00  7500.0  7650.0  ...           0.0      False
+2025-08-08 00:00:00+07:00  7600.0  8150.0  ...           0.0      False
+2025-08-11 00:00:00+07:00  8150.0  8200.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:24 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:253 - Last 3 rows of intraday data:
+                             Open    High  ...  Stock Splits  Repaired?
+Datetime                                   ...                         
+2025-08-11 16:00:00+07:00  4720.0  4720.0  ...           0.0      False
+2025-08-11 16:05:00+07:00  4720.0  4720.0  ...           0.0      False
+2025-08-11 16:10:00+07:00  4720.0  4720.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:24 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:251 - Last 3 rows of daily data:
+                             Open    High  ...  Stock Splits  Repaired?
+Date                                       ...                         
+2025-08-07 00:00:00+07:00  3100.0  3250.0  ...           0.0      False
+2025-08-08 00:00:00+07:00  3160.0  3170.0  ...           0.0      False
+2025-08-11 00:00:00+07:00  3060.0  3070.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:24 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:247 - Stock info: StockInfo(symbol='INCO.JK', company_name='PT Vale Indonesia Tbk', sector='Basic Materials', industry='Other Industrial Metals & Mining', market_cap=41316012523520, shares_outstanding=10539799552, currency='IDR', exchange='JKT', last_updated=datetime.datetime(2025, 8, 11, 17, 47, 23, 865289, tzinfo=datetime.timezone(datetime.timedelta(seconds=25200), 'WIB')), data_source='yahoo')
+2025-08-11 17:47:24 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:240 - Daily data index timezone: Asia/Jakarta
+2025-08-11 17:47:24 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:247 - Stock info: StockInfo(symbol='TLKM.JK', company_name='Perusahaan Perseroan (Persero) PT Telekomunikasi Indonesia Tbk', sector='Communication Services', industry='Telecom Services', market_cap=296195977117696, shares_outstanding=99062202368, currency='IDR', exchange='JKT', last_updated=datetime.datetime(2025, 8, 11, 17, 47, 23, 914509, tzinfo=datetime.timezone(datetime.timedelta(seconds=25200), 'WIB')), data_source='yahoo')
+2025-08-11 17:47:24 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:251 - Last 3 rows of daily data:
+                             Open    High  ...  Stock Splits  Repaired?
+Date                                       ...                         
+2025-08-07 00:00:00+07:00  9550.0  9575.0  ...           0.0      False
+2025-08-08 00:00:00+07:00  9450.0  9450.0  ...           0.0      False
+2025-08-11 00:00:00+07:00  9350.0  9600.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:24 | DEBUG    | src.data.collectors.idx_collector:_validate_stock_data:295 - Last date timezone: Asia/Jakarta, Current timezone: Asia/Jakarta
+2025-08-11 17:47:24 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:253 - Last 3 rows of intraday data:
+                             Open    High  ...  Stock Splits  Repaired?
+Datetime                                   ...                         
+2025-08-11 16:00:00+07:00  8125.0  8125.0  ...           0.0      False
+2025-08-11 16:05:00+07:00  8125.0  8125.0  ...           0.0      False
+2025-08-11 16:10:00+07:00  8125.0  8125.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:24 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:253 - Last 3 rows of intraday data:
+                             Open    High  ...  Stock Splits  Repaired?
+Datetime                                   ...                         
+2025-08-11 16:00:00+07:00  2940.0  2940.0  ...           0.0      False
+2025-08-11 16:05:00+07:00  2940.0  2940.0  ...           0.0      False
+2025-08-11 16:10:00+07:00  2940.0  2940.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:24 | DEBUG    | src.data.collectors.idx_collector:_validate_stock_data:295 - Last date timezone: Asia/Jakarta, Current timezone: Asia/Jakarta
+2025-08-11 17:47:24 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:251 - Last 3 rows of daily data:
+                             Open    High  ...  Stock Splits  Repaired?
+Date                                       ...                         
+2025-08-07 00:00:00+07:00  3900.0  4140.0  ...           0.0      False
+2025-08-08 00:00:00+07:00  4110.0  4120.0  ...           0.0      False
+2025-08-11 00:00:00+07:00  4030.0  4080.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:24 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:251 - Last 3 rows of daily data:
+                             Open    High  ...  Stock Splits  Repaired?
+Date                                       ...                         
+2025-08-07 00:00:00+07:00  2990.0  2990.0  ...           0.0      False
+2025-08-08 00:00:00+07:00  2950.0  2960.0  ...           0.0      False
+2025-08-11 00:00:00+07:00  2990.0  3010.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:24 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:253 - Last 3 rows of intraday data:
+                             Open    High  ...  Stock Splits  Repaired?
+Datetime                                   ...                         
+2025-08-11 16:00:00+07:00  9550.0  9550.0  ...           0.0      False
+2025-08-11 16:05:00+07:00  9550.0  9550.0  ...           0.0      False
+2025-08-11 16:10:00+07:00  9550.0  9550.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:24 | DEBUG    | src.data.collectors.idx_collector:_validate_stock_data:295 - Last date timezone: Asia/Jakarta, Current timezone: Asia/Jakarta
+2025-08-11 17:47:24 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:242 - Intraday data index timezone: Asia/Jakarta
+2025-08-11 17:47:24 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:253 - Last 3 rows of intraday data:
+                             Open    High  ...  Stock Splits  Repaired?
+Datetime                                   ...                         
+2025-08-11 16:00:00+07:00  3920.0  3920.0  ...           0.0      False
+2025-08-11 16:05:00+07:00  3920.0  3920.0  ...           0.0      False
+2025-08-11 16:10:00+07:00  3920.0  3920.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:24 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:253 - Last 3 rows of intraday data:
+                             Open    High  ...  Stock Splits  Repaired?
+Datetime                                   ...                         
+2025-08-11 16:00:00+07:00  2990.0  2990.0  ...           0.0      False
+2025-08-11 16:05:00+07:00  2990.0  2990.0  ...           0.0      False
+2025-08-11 16:10:00+07:00  2990.0  2990.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:24 | DEBUG    | src.data.collectors.idx_collector:_validate_stock_data:295 - Last date timezone: Asia/Jakarta, Current timezone: Asia/Jakarta
+2025-08-11 17:47:24 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:243 - Stock info last_updated timezone: WIB
+2025-08-11 17:47:24 | DEBUG    | src.data.collectors.idx_collector:_validate_stock_data:295 - Last date timezone: Asia/Jakarta, Current timezone: Asia/Jakarta
+2025-08-11 17:47:24 | DEBUG    | src.data.collectors.idx_collector:_validate_stock_data:295 - Last date timezone: Asia/Jakarta, Current timezone: Asia/Jakarta
+2025-08-11 17:47:24 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:244 - Stock data for JSMR.JK before validation:
+2025-08-11 17:47:25 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:245 - Daily data shape: (30, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:25 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:246 - Intraday data shape: (67, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:25 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:247 - Stock info: StockInfo(symbol='JSMR.JK', company_name='PT Jasa Marga (Persero) Tbk', sector='Industrials', industry='Infrastructure Operations', market_cap=25838015741952, shares_outstanding=7257869824, currency='IDR', exchange='JKT', last_updated=datetime.datetime(2025, 8, 11, 17, 47, 24, 514273, tzinfo=datetime.timezone(datetime.timedelta(seconds=25200), 'WIB')), data_source='yahoo')
+2025-08-11 17:47:25 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:251 - Last 3 rows of daily data:
+                             Open    High  ...  Stock Splits  Repaired?
+Date                                       ...                         
+2025-08-07 00:00:00+07:00  3570.0  3570.0  ...           0.0      False
+2025-08-08 00:00:00+07:00  3540.0  3570.0  ...           0.0      False
+2025-08-11 00:00:00+07:00  3530.0  3570.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:25 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:253 - Last 3 rows of intraday data:
+                             Open    High  ...  Stock Splits  Repaired?
+Datetime                                   ...                         
+2025-08-11 16:00:00+07:00  3560.0  3560.0  ...           0.0      False
+2025-08-11 16:05:00+07:00  3560.0  3560.0  ...           0.0      False
+2025-08-11 16:10:00+07:00  3560.0  3560.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:25 | DEBUG    | src.data.collectors.idx_collector:_validate_stock_data:295 - Last date timezone: Asia/Jakarta, Current timezone: Asia/Jakarta
+2025-08-11 17:47:25 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:238 - Data timestamps for AKRA.JK:
+2025-08-11 17:47:25 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:240 - Daily data index timezone: Asia/Jakarta
+2025-08-11 17:47:25 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:242 - Intraday data index timezone: Asia/Jakarta
+2025-08-11 17:47:25 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:243 - Stock info last_updated timezone: WIB
+2025-08-11 17:47:25 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:244 - Stock data for AKRA.JK before validation:
+2025-08-11 17:47:25 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:245 - Daily data shape: (30, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:25 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:246 - Intraday data shape: (67, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:25 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:247 - Stock info: StockInfo(symbol='AKRA.JK', company_name='PT AKR Corporindo Tbk', sector='Energy', industry='Oil & Gas Refining & Marketing', market_cap=25382348652544, shares_outstanding=19752800256, currency='IDR', exchange='JKT', last_updated=datetime.datetime(2025, 8, 11, 17, 47, 25, 184308, tzinfo=datetime.timezone(datetime.timedelta(seconds=25200), 'WIB')), data_source='yahoo')
+2025-08-11 17:47:25 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:251 - Last 3 rows of daily data:
+                             Open    High  ...  Stock Splits  Repaired?
+Date                                       ...                         
+2025-08-07 00:00:00+07:00  1275.0  1315.0  ...           0.0      False
+2025-08-08 00:00:00+07:00  1310.0  1310.0  ...           0.0      False
+2025-08-11 00:00:00+07:00  1305.0  1310.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:25 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:253 - Last 3 rows of intraday data:
+                             Open    High  ...  Stock Splits  Repaired?
+Datetime                                   ...                         
+2025-08-11 16:00:00+07:00  1285.0  1285.0  ...           0.0      False
+2025-08-11 16:05:00+07:00  1285.0  1285.0  ...           0.0      False
+2025-08-11 16:10:00+07:00  1285.0  1285.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:25 | DEBUG    | src.data.collectors.idx_collector:_validate_stock_data:295 - Last date timezone: Asia/Jakarta, Current timezone: Asia/Jakarta
+2025-08-11 17:47:25 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:238 - Data timestamps for EXCL.JK:
+2025-08-11 17:47:25 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:240 - Daily data index timezone: Asia/Jakarta
+2025-08-11 17:47:25 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:242 - Intraday data index timezone: Asia/Jakarta
+2025-08-11 17:47:25 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:243 - Stock info last_updated timezone: WIB
+2025-08-11 17:47:25 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:244 - Stock data for EXCL.JK before validation:
+2025-08-11 17:47:25 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:245 - Daily data shape: (30, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:25 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:246 - Intraday data shape: (67, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:26 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:247 - Stock info: StockInfo(symbol='EXCL.JK', company_name='PT XLSMART Telecom Sejahtera Tbk', sector='Communication Services', industry='Telecom Services', market_cap=48987180630016, shares_outstanding=18143399936, currency='IDR', exchange='JKT', last_updated=datetime.datetime(2025, 8, 11, 17, 47, 25, 796266, tzinfo=datetime.timezone(datetime.timedelta(seconds=25200), 'WIB')), data_source='yahoo')
+2025-08-11 17:47:26 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:251 - Last 3 rows of daily data:
+                             Open    High  ...  Stock Splits  Repaired?
+Date                                       ...                         
+2025-08-07 00:00:00+07:00  2580.0  2590.0  ...           0.0      False
+2025-08-08 00:00:00+07:00  2540.0  2640.0  ...           0.0      False
+2025-08-11 00:00:00+07:00  2640.0  2780.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:26 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:253 - Last 3 rows of intraday data:
+                             Open    High  ...  Stock Splits  Repaired?
+Datetime                                   ...                         
+2025-08-11 16:00:00+07:00  2700.0  2700.0  ...           0.0      False
+2025-08-11 16:05:00+07:00  2700.0  2700.0  ...           0.0      False
+2025-08-11 16:10:00+07:00  2700.0  2700.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:26 | DEBUG    | src.data.collectors.idx_collector:_validate_stock_data:295 - Last date timezone: Asia/Jakarta, Current timezone: Asia/Jakarta
+2025-08-11 17:47:27 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:238 - Data timestamps for GOTO.JK:
+2025-08-11 17:47:27 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:240 - Daily data index timezone: Asia/Jakarta
+2025-08-11 17:47:27 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:242 - Intraday data index timezone: Asia/Jakarta
+2025-08-11 17:47:27 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:243 - Stock info last_updated timezone: WIB
+2025-08-11 17:47:27 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:244 - Stock data for GOTO.JK before validation:
+2025-08-11 17:47:27 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:245 - Daily data shape: (30, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:27 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:246 - Intraday data shape: (67, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:27 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:247 - Stock info: StockInfo(symbol='GOTO.JK', company_name='PT GoTo Gojek Tokopedia Tbk', sector='Technology', industry='Software - Infrastructure', market_cap=65421780713472, shares_outstanding=1055190024192, currency='IDR', exchange='JKT', last_updated=datetime.datetime(2025, 8, 11, 17, 47, 27, 454570, tzinfo=datetime.timezone(datetime.timedelta(seconds=25200), 'WIB')), data_source='yahoo')
+2025-08-11 17:47:27 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:251 - Last 3 rows of daily data:
+                           Open  High   Low  ...  Dividends  Stock Splits  Repaired?
+Date                                         ...                                    
+2025-08-07 00:00:00+07:00  65.0  66.0  63.0  ...        0.0           0.0      False
+2025-08-08 00:00:00+07:00  63.0  64.0  61.0  ...        0.0           0.0      False
+2025-08-11 00:00:00+07:00  62.0  63.0  61.0  ...        0.0           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:27 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:253 - Last 3 rows of intraday data:
+                           Open  High   Low  ...  Dividends  Stock Splits  Repaired?
+Datetime                                     ...                                    
+2025-08-11 16:00:00+07:00  62.0  62.0  62.0  ...        0.0           0.0      False
+2025-08-11 16:05:00+07:00  62.0  62.0  62.0  ...        0.0           0.0      False
+2025-08-11 16:10:00+07:00  62.0  62.0  62.0  ...        0.0           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:27 | DEBUG    | src.data.collectors.idx_collector:_validate_stock_data:295 - Last date timezone: Asia/Jakarta, Current timezone: Asia/Jakarta
+2025-08-11 17:47:28 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:238 - Data timestamps for AMRT.JK:
+2025-08-11 17:47:28 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:240 - Daily data index timezone: Asia/Jakarta
+2025-08-11 17:47:28 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:242 - Intraday data index timezone: Asia/Jakarta
+2025-08-11 17:47:28 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:238 - Data timestamps for JPFA.JK:
+2025-08-11 17:47:28 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:243 - Stock info last_updated timezone: WIB
+2025-08-11 17:47:28 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:238 - Data timestamps for MAPA.JK:
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:240 - Daily data index timezone: Asia/Jakarta
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:238 - Data timestamps for MNCN.JK:
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:244 - Stock data for AMRT.JK before validation:
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:238 - Data timestamps for ISAT.JK:
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:240 - Daily data index timezone: Asia/Jakarta
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:242 - Intraday data index timezone: Asia/Jakarta
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:240 - Daily data index timezone: Asia/Jakarta
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:245 - Daily data shape: (30, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:246 - Intraday data shape: (67, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:240 - Daily data index timezone: Asia/Jakarta
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:242 - Intraday data index timezone: Asia/Jakarta
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:243 - Stock info last_updated timezone: WIB
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:242 - Intraday data index timezone: Asia/Jakarta
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:238 - Data timestamps for INDF.JK:
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:238 - Data timestamps for ITMG.JK:
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:247 - Stock info: StockInfo(symbol='AMRT.JK', company_name='PT Sumber Alfaria Trijaya Tbk', sector='Consumer Defensive', industry='Grocery Stores', market_cap=98828304777216, shares_outstanding=41524498432, currency='IDR', exchange='JKT', last_updated=datetime.datetime(2025, 8, 11, 17, 47, 28, 591825, tzinfo=datetime.timezone(datetime.timedelta(seconds=25200), 'WIB')), data_source='yahoo')
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:242 - Intraday data index timezone: Asia/Jakarta
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:243 - Stock info last_updated timezone: WIB
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:244 - Stock data for JPFA.JK before validation:
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:243 - Stock info last_updated timezone: WIB
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:240 - Daily data index timezone: Asia/Jakarta
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:240 - Daily data index timezone: Asia/Jakarta
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:251 - Last 3 rows of daily data:
+                             Open    High  ...  Stock Splits  Repaired?
+Date                                       ...                         
+2025-08-07 00:00:00+07:00  2340.0  2420.0  ...           0.0      False
+2025-08-08 00:00:00+07:00  2410.0  2410.0  ...           0.0      False
+2025-08-11 00:00:00+07:00  2360.0  2400.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:243 - Stock info last_updated timezone: WIB
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:238 - Data timestamps for SMGR.JK:
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:244 - Stock data for MAPA.JK before validation:
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:245 - Daily data shape: (30, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:244 - Stock data for MNCN.JK before validation:
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:242 - Intraday data index timezone: Asia/Jakarta
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:242 - Intraday data index timezone: Asia/Jakarta
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:244 - Stock data for ISAT.JK before validation:
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:253 - Last 3 rows of intraday data:
+                             Open    High  ...  Stock Splits  Repaired?
+Datetime                                   ...                         
+2025-08-11 16:00:00+07:00  2380.0  2380.0  ...           0.0      False
+2025-08-11 16:05:00+07:00  2380.0  2380.0  ...           0.0      False
+2025-08-11 16:10:00+07:00  2380.0  2380.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:240 - Daily data index timezone: Asia/Jakarta
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:245 - Daily data shape: (30, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:246 - Intraday data shape: (67, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:245 - Daily data shape: (30, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:246 - Intraday data shape: (65, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:243 - Stock info last_updated timezone: WIB
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:245 - Daily data shape: (30, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_validate_stock_data:295 - Last date timezone: Asia/Jakarta, Current timezone: Asia/Jakarta
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:242 - Intraday data index timezone: Asia/Jakarta
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:246 - Intraday data shape: (66, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:247 - Stock info: StockInfo(symbol='JPFA.JK', company_name='PT Japfa Comfeed Indonesia Tbk', sector='Consumer Defensive', industry='Farm Products', market_cap=18429903896576, shares_outstanding=8716080128, currency='IDR', exchange='JKT', last_updated=datetime.datetime(2025, 8, 11, 17, 47, 28, 813214, tzinfo=datetime.timezone(datetime.timedelta(seconds=25200), 'WIB')), data_source='yahoo')
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:243 - Stock info last_updated timezone: WIB
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:244 - Stock data for INDF.JK before validation:
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:244 - Stock data for ITMG.JK before validation:
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:246 - Intraday data shape: (67, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:243 - Stock info last_updated timezone: WIB
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:247 - Stock info: StockInfo(symbol='MAPA.JK', company_name='PT Map Aktif Adiperkasa Tbk', sector='Consumer Cyclical', industry='Specialty Retail', market_cap=18385079369728, shares_outstanding=28504000512, currency='IDR', exchange='JKT', last_updated=datetime.datetime(2025, 8, 11, 17, 47, 28, 994183, tzinfo=datetime.timezone(datetime.timedelta(seconds=25200), 'WIB')), data_source='yahoo')
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:247 - Stock info: StockInfo(symbol='MNCN.JK', company_name='PT. Media Nusantara Citra Tbk', sector='Communication Services', industry='Advertising Agencies', market_cap=3465526640640, shares_outstanding=13227200512, currency='IDR', exchange='JKT', last_updated=datetime.datetime(2025, 8, 11, 17, 47, 29, 38692, tzinfo=datetime.timezone(datetime.timedelta(seconds=25200), 'WIB')), data_source='yahoo')
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:245 - Daily data shape: (30, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:251 - Last 3 rows of daily data:
+                             Open    High  ...  Stock Splits  Repaired?
+Date                                       ...                         
+2025-08-07 00:00:00+07:00  1620.0  1630.0  ...           0.0      False
+2025-08-08 00:00:00+07:00  1600.0  1610.0  ...           0.0      False
+2025-08-11 00:00:00+07:00  1590.0  1600.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:245 - Daily data shape: (30, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:247 - Stock info: StockInfo(symbol='ISAT.JK', company_name='PT Indosat Ooredoo Hutchison Tbk', sector='Communication Services', industry='Telecom Services', market_cap=72886811361280, shares_outstanding=32250800128, currency='IDR', exchange='JKT', last_updated=datetime.datetime(2025, 8, 11, 17, 47, 29, 113488, tzinfo=datetime.timezone(datetime.timedelta(seconds=25200), 'WIB')), data_source='yahoo')
+2025-08-11 17:47:29 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:244 - Stock data for SMGR.JK before validation:
+2025-08-11 17:47:30 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:246 - Intraday data shape: (67, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:30 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:251 - Last 3 rows of daily data:
+                            Open   High  ...  Stock Splits  Repaired?
+Date                                     ...                         
+2025-08-07 00:00:00+07:00  260.0  264.0  ...           0.0      False
+2025-08-08 00:00:00+07:00  262.0  264.0  ...           0.0      False
+2025-08-11 00:00:00+07:00  258.0  262.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:30 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:246 - Intraday data shape: (67, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:30 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:251 - Last 3 rows of daily data:
+                            Open   High  ...  Stock Splits  Repaired?
+Date                                     ...                         
+2025-08-07 00:00:00+07:00  655.0  655.0  ...           0.0      False
+2025-08-08 00:00:00+07:00  640.0  660.0  ...           0.0      False
+2025-08-11 00:00:00+07:00  650.0  655.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:30 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:251 - Last 3 rows of daily data:
+                             Open    High  ...  Stock Splits  Repaired?
+Date                                       ...                         
+2025-08-07 00:00:00+07:00  2290.0  2300.0  ...           0.0      False
+2025-08-08 00:00:00+07:00  2290.0  2380.0  ...           0.0      False
+2025-08-11 00:00:00+07:00  2230.0  2260.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:30 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:253 - Last 3 rows of intraday data:
+                             Open    High  ...  Stock Splits  Repaired?
+Datetime                                   ...                         
+2025-08-11 16:00:00+07:00  1585.0  1585.0  ...           0.0      False
+2025-08-11 16:05:00+07:00  1585.0  1585.0  ...           0.0      False
+2025-08-11 16:10:00+07:00  1585.0  1585.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:30 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:245 - Daily data shape: (30, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:30 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:247 - Stock info: StockInfo(symbol='INDF.JK', company_name='PT Indofood Sukses Makmur Tbk', sector='Consumer Defensive', industry='Packaged Foods', market_cap=70901974433792, shares_outstanding=8780430336, currency='IDR', exchange='JKT', last_updated=datetime.datetime(2025, 8, 11, 17, 47, 29, 479617, tzinfo=datetime.timezone(datetime.timedelta(seconds=25200), 'WIB')), data_source='yahoo')
+2025-08-11 17:47:30 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:253 - Last 3 rows of intraday data:
+                            Open   High  ...  Stock Splits  Repaired?
+Datetime                                 ...                         
+2025-08-11 15:45:00+07:00  260.0  262.0  ...           0.0      False
+2025-08-11 16:00:00+07:00  262.0  262.0  ...           0.0      False
+2025-08-11 16:10:00+07:00  262.0  262.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:30 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:247 - Stock info: StockInfo(symbol='ITMG.JK', company_name='PT Indo Tambangraya Megah Tbk', sector='Energy', industry='Thermal Coal', market_cap=26779104313344, shares_outstanding=1129920000, currency='IDR', exchange='JKT', last_updated=datetime.datetime(2025, 8, 11, 17, 47, 29, 254795, tzinfo=datetime.timezone(datetime.timedelta(seconds=25200), 'WIB')), data_source='yahoo')
+2025-08-11 17:47:30 | DEBUG    | src.data.collectors.idx_collector:_validate_stock_data:295 - Last date timezone: Asia/Jakarta, Current timezone: Asia/Jakarta
+2025-08-11 17:47:30 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:253 - Last 3 rows of intraday data:
+                             Open    High  ...  Stock Splits  Repaired?
+Datetime                                   ...                         
+2025-08-11 16:00:00+07:00  2260.0  2260.0  ...           0.0      False
+2025-08-11 16:05:00+07:00  2260.0  2260.0  ...           0.0      False
+2025-08-11 16:10:00+07:00  2260.0  2260.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:30 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:246 - Intraday data shape: (67, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:30 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:251 - Last 3 rows of daily data:
+                             Open    High  ...  Stock Splits  Repaired?
+Date                                       ...                         
+2025-08-07 00:00:00+07:00  8200.0  8325.0  ...           0.0      False
+2025-08-08 00:00:00+07:00  8225.0  8275.0  ...           0.0      False
+2025-08-11 00:00:00+07:00  8150.0  8200.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:30 | DEBUG    | src.data.collectors.idx_collector:_validate_stock_data:295 - Last date timezone: Asia/Jakarta, Current timezone: Asia/Jakarta
+2025-08-11 17:47:30 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:253 - Last 3 rows of intraday data:
+                            Open   High  ...  Stock Splits  Repaired?
+Datetime                                 ...                         
+2025-08-11 15:45:00+07:00  650.0  650.0  ...           0.0      False
+2025-08-11 16:00:00+07:00  645.0  645.0  ...           0.0      False
+2025-08-11 16:10:00+07:00  645.0  645.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:30 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:251 - Last 3 rows of daily data:
+                              Open     High  ...  Stock Splits  Repaired?
+Date                                         ...                         
+2025-08-07 00:00:00+07:00  23100.0  23175.0  ...           0.0      False
+2025-08-08 00:00:00+07:00  23200.0  23425.0  ...           0.0      False
+2025-08-11 00:00:00+07:00  23350.0  23775.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:30 | DEBUG    | src.data.collectors.idx_collector:_validate_stock_data:295 - Last date timezone: Asia/Jakarta, Current timezone: Asia/Jakarta
+2025-08-11 17:47:30 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:247 - Stock info: StockInfo(symbol='SMGR.JK', company_name='PT Semen Indonesia (Persero) Tbk', sector='Basic Materials', industry='Building Materials', market_cap=18026613178368, shares_outstanding=6751540224, currency='IDR', exchange='JKT', last_updated=datetime.datetime(2025, 8, 11, 17, 47, 29, 818506, tzinfo=datetime.timezone(datetime.timedelta(seconds=25200), 'WIB')), data_source='yahoo')
+2025-08-11 17:47:30 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:253 - Last 3 rows of intraday data:
+                             Open    High  ...  Stock Splits  Repaired?
+Datetime                                   ...                         
+2025-08-11 16:00:00+07:00  8075.0  8075.0  ...           0.0      False
+2025-08-11 16:05:00+07:00  8075.0  8075.0  ...           0.0      False
+2025-08-11 16:10:00+07:00  8075.0  8075.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:30 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:238 - Data timestamps for BBNI.JK:
+2025-08-11 17:47:30 | DEBUG    | src.data.collectors.idx_collector:_validate_stock_data:295 - Last date timezone: Asia/Jakarta, Current timezone: Asia/Jakarta
+2025-08-11 17:47:30 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:253 - Last 3 rows of intraday data:
+                              Open     High  ...  Stock Splits  Repaired?
+Datetime                                     ...                         
+2025-08-11 16:00:00+07:00  23700.0  23700.0  ...           0.0      False
+2025-08-11 16:05:00+07:00  23700.0  23700.0  ...           0.0      False
+2025-08-11 16:10:00+07:00  23700.0  23700.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:30 | DEBUG    | src.data.collectors.idx_collector:_validate_stock_data:295 - Last date timezone: Asia/Jakarta, Current timezone: Asia/Jakarta
+2025-08-11 17:47:30 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:251 - Last 3 rows of daily data:
+                             Open    High  ...  Stock Splits  Repaired?
+Date                                       ...                         
+2025-08-07 00:00:00+07:00  2540.0  2540.0  ...           0.0      False
+2025-08-08 00:00:00+07:00  2500.0  2520.0  ...           0.0      False
+2025-08-11 00:00:00+07:00  2480.0  2690.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:30 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:240 - Daily data index timezone: Asia/Jakarta
+2025-08-11 17:47:30 | DEBUG    | src.data.collectors.idx_collector:_validate_stock_data:295 - Last date timezone: Asia/Jakarta, Current timezone: Asia/Jakarta
+2025-08-11 17:47:30 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:253 - Last 3 rows of intraday data:
+                             Open    High  ...  Stock Splits  Repaired?
+Datetime                                   ...                         
+2025-08-11 16:00:00+07:00  2670.0  2670.0  ...           0.0      False
+2025-08-11 16:05:00+07:00  2670.0  2670.0  ...           0.0      False
+2025-08-11 16:10:00+07:00  2670.0  2670.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:30 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:242 - Intraday data index timezone: Asia/Jakarta
+2025-08-11 17:47:30 | DEBUG    | src.data.collectors.idx_collector:_validate_stock_data:295 - Last date timezone: Asia/Jakarta, Current timezone: Asia/Jakarta
+2025-08-11 17:47:30 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:243 - Stock info last_updated timezone: WIB
+2025-08-11 17:47:30 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:244 - Stock data for BBNI.JK before validation:
+2025-08-11 17:47:30 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:245 - Daily data shape: (30, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:30 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:246 - Intraday data shape: (67, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:30 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:247 - Stock info: StockInfo(symbol='BBNI.JK', company_name='PT Bank Negara Indonesia (Persero) Tbk', sector='Financial Services', industry='Banks - Regional', market_cap=156478560272384, shares_outstanding=578684032, currency='IDR', exchange='JKT', last_updated=datetime.datetime(2025, 8, 11, 17, 47, 30, 524832, tzinfo=datetime.timezone(datetime.timedelta(seconds=25200), 'WIB')), data_source='yahoo')
+2025-08-11 17:47:30 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:251 - Last 3 rows of daily data:
+                             Open    High  ...  Stock Splits  Repaired?
+Date                                       ...                         
+2025-08-07 00:00:00+07:00  4120.0  4140.0  ...           0.0      False
+2025-08-08 00:00:00+07:00  4090.0  4100.0  ...           0.0      False
+2025-08-11 00:00:00+07:00  4090.0  4220.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:30 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:253 - Last 3 rows of intraday data:
+                             Open    High  ...  Stock Splits  Repaired?
+Datetime                                   ...                         
+2025-08-11 16:00:00+07:00  4200.0  4200.0  ...           0.0      False
+2025-08-11 16:05:00+07:00  4200.0  4200.0  ...           0.0      False
+2025-08-11 16:10:00+07:00  4200.0  4200.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:30 | DEBUG    | src.data.collectors.idx_collector:_validate_stock_data:295 - Last date timezone: Asia/Jakarta, Current timezone: Asia/Jakarta
+2025-08-11 17:47:31 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:238 - Data timestamps for UNTR.JK:
+2025-08-11 17:47:31 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:240 - Daily data index timezone: Asia/Jakarta
+2025-08-11 17:47:31 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:242 - Intraday data index timezone: Asia/Jakarta
+2025-08-11 17:47:31 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:243 - Stock info last_updated timezone: WIB
+2025-08-11 17:47:31 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:244 - Stock data for UNTR.JK before validation:
+2025-08-11 17:47:31 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:245 - Daily data shape: (30, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:31 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:246 - Intraday data shape: (66, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:31 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:247 - Stock info: StockInfo(symbol='UNTR.JK', company_name='PT United Tractors Tbk', sector='Basic Materials', industry='Other Industrial Metals & Mining', market_cap=88162189705216, shares_outstanding=3631810048, currency='IDR', exchange='JKT', last_updated=datetime.datetime(2025, 8, 11, 17, 47, 31, 5301, tzinfo=datetime.timezone(datetime.timedelta(seconds=25200), 'WIB')), data_source='yahoo')
+2025-08-11 17:47:31 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:251 - Last 3 rows of daily data:
+                              Open     High  ...  Stock Splits  Repaired?
+Date                                         ...                         
+2025-08-07 00:00:00+07:00  24075.0  24300.0  ...           0.0      False
+2025-08-08 00:00:00+07:00  24100.0  24350.0  ...           0.0      False
+2025-08-11 00:00:00+07:00  24200.0  24450.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:31 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:253 - Last 3 rows of intraday data:
+                              Open     High  ...  Stock Splits  Repaired?
+Datetime                                     ...                         
+2025-08-11 15:45:00+07:00  24250.0  24275.0  ...           0.0      False
+2025-08-11 16:00:00+07:00  24275.0  24275.0  ...           0.0      False
+2025-08-11 16:10:00+07:00  24275.0  24275.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:31 | DEBUG    | src.data.collectors.idx_collector:_validate_stock_data:295 - Last date timezone: Asia/Jakarta, Current timezone: Asia/Jakarta
+2025-08-11 17:47:31 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:238 - Data timestamps for BBRI.JK:
+2025-08-11 17:47:31 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:240 - Daily data index timezone: Asia/Jakarta
+2025-08-11 17:47:31 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:242 - Intraday data index timezone: Asia/Jakarta
+2025-08-11 17:47:31 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:243 - Stock info last_updated timezone: WIB
+2025-08-11 17:47:31 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:244 - Stock data for BBRI.JK before validation:
+2025-08-11 17:47:31 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:245 - Daily data shape: (30, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:32 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:246 - Intraday data shape: (67, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:32 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:247 - Stock info: StockInfo(symbol='BBRI.JK', company_name='PT Bank Rakyat Indonesia (Persero) Tbk', sector='Financial Services', industry='Banks - Regional', market_cap=577439763791872, shares_outstanding=151558995968, currency='IDR', exchange='JKT', last_updated=datetime.datetime(2025, 8, 11, 17, 47, 31, 928960, tzinfo=datetime.timezone(datetime.timedelta(seconds=25200), 'WIB')), data_source='yahoo')
+2025-08-11 17:47:32 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:238 - Data timestamps for PTBA.JK:
+2025-08-11 17:47:32 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:240 - Daily data index timezone: Asia/Jakarta
+2025-08-11 17:47:32 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:242 - Intraday data index timezone: Asia/Jakarta
+2025-08-11 17:47:32 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:243 - Stock info last_updated timezone: WIB
+2025-08-11 17:47:32 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:251 - Last 3 rows of daily data:
+                             Open    High  ...  Stock Splits  Repaired?
+Date                                       ...                         
+2025-08-07 00:00:00+07:00  3730.0  3750.0  ...           0.0      False
+2025-08-08 00:00:00+07:00  3710.0  3730.0  ...           0.0      False
+2025-08-11 00:00:00+07:00  3720.0  3810.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:32 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:244 - Stock data for PTBA.JK before validation:
+2025-08-11 17:47:32 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:245 - Daily data shape: (30, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:32 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:246 - Intraday data shape: (67, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:32 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:247 - Stock info: StockInfo(symbol='PTBA.JK', company_name='PT Bukit Asam Tbk', sector='Energy', industry='Thermal Coal', market_cap=27749704007680, shares_outstanding=11514399744, currency='IDR', exchange='JKT', last_updated=datetime.datetime(2025, 8, 11, 17, 47, 32, 191807, tzinfo=datetime.timezone(datetime.timedelta(seconds=25200), 'WIB')), data_source='yahoo')
+2025-08-11 17:47:32 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:253 - Last 3 rows of intraday data:
+                             Open    High  ...  Stock Splits  Repaired?
+Datetime                                   ...                         
+2025-08-11 16:00:00+07:00  3810.0  3810.0  ...           0.0      False
+2025-08-11 16:05:00+07:00  3810.0  3810.0  ...           0.0      False
+2025-08-11 16:10:00+07:00  3810.0  3810.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:32 | DEBUG    | src.data.collectors.idx_collector:_validate_stock_data:295 - Last date timezone: Asia/Jakarta, Current timezone: Asia/Jakarta
+2025-08-11 17:47:32 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:251 - Last 3 rows of daily data:
+                             Open    High  ...  Stock Splits  Repaired?
+Date                                       ...                         
+2025-08-07 00:00:00+07:00  2430.0  2430.0  ...           0.0      False
+2025-08-08 00:00:00+07:00  2410.0  2420.0  ...           0.0      False
+2025-08-11 00:00:00+07:00  2400.0  2420.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:32 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:253 - Last 3 rows of intraday data:
+                             Open    High  ...  Stock Splits  Repaired?
+Datetime                                   ...                         
+2025-08-11 16:00:00+07:00  2410.0  2410.0  ...           0.0      False
+2025-08-11 16:05:00+07:00  2410.0  2410.0  ...           0.0      False
+2025-08-11 16:10:00+07:00  2410.0  2410.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:32 | DEBUG    | src.data.collectors.idx_collector:_validate_stock_data:295 - Last date timezone: Asia/Jakarta, Current timezone: Asia/Jakarta
+2025-08-11 17:47:32 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:238 - Data timestamps for MDKA.JK:
+2025-08-11 17:47:32 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:240 - Daily data index timezone: Asia/Jakarta
+2025-08-11 17:47:32 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:242 - Intraday data index timezone: Asia/Jakarta
+2025-08-11 17:47:32 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:243 - Stock info last_updated timezone: WIB
+2025-08-11 17:47:32 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:244 - Stock data for MDKA.JK before validation:
+2025-08-11 17:47:32 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:245 - Daily data shape: (30, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:32 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:246 - Intraday data shape: (67, 9), columns: ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume', 'Dividends', 'Stock Splits', 'Repaired?']
+2025-08-11 17:47:32 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:247 - Stock info: StockInfo(symbol='MDKA.JK', company_name='PT Merdeka Copper Gold Tbk', sector='Basic Materials', industry='Other Industrial Metals & Mining', market_cap=58344198897664, shares_outstanding=24411799552, currency='IDR', exchange='JKT', last_updated=datetime.datetime(2025, 8, 11, 17, 47, 32, 496522, tzinfo=datetime.timezone(datetime.timedelta(seconds=25200), 'WIB')), data_source='yahoo')
+2025-08-11 17:47:32 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:251 - Last 3 rows of daily data:
+                             Open    High  ...  Stock Splits  Repaired?
+Date                                       ...                         
+2025-08-07 00:00:00+07:00  2440.0  2540.0  ...           0.0      False
+2025-08-08 00:00:00+07:00  2500.0  2510.0  ...           0.0      False
+2025-08-11 00:00:00+07:00  2460.0  2500.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:32 | DEBUG    | src.data.collectors.idx_collector:_fetch_single_stock:253 - Last 3 rows of intraday data:
+                             Open    High  ...  Stock Splits  Repaired?
+Datetime                                   ...                         
+2025-08-11 16:00:00+07:00  2390.0  2390.0  ...           0.0      False
+2025-08-11 16:05:00+07:00  2390.0  2390.0  ...           0.0      False
+2025-08-11 16:10:00+07:00  2390.0  2390.0  ...           0.0      False
+
+[3 rows x 9 columns]
+2025-08-11 17:47:32 | DEBUG    | src.data.collectors.idx_collector:_validate_stock_data:295 - Last date timezone: Asia/Jakarta, Current timezone: Asia/Jakarta
+2025-08-11 17:47:32 | INFO     | src.data.collectors.idx_collector:fetch_realtime_data:156 - Data collection completed in 23.11s. Success rate: 100.0% (47/47)
+2025-08-11 17:47:32 | INFO     | src.data.collectors.idx_collector:fetch_filtered_data:499 - Filtering completed: 37 stocks passed filters, 10 excluded
+2025-08-11 17:47:32 | INFO     | src.scheduler.workflows:run_overnight_screening:330 - Collected data for 37 stocks
+2025-08-11 17:47:32 | INFO     | src.analysis.screener:screen_overnight_setups:145 - Screening 37 stocks for overnight setup opportunities
+2025-08-11 17:47:32 | DEBUG    | src.analysis.screener:screen_overnight_setups:155 - Error analyzing ARTO.JK for overnight setup: 'float' object is not callable
+2025-08-11 17:47:32 | DEBUG    | src.analysis.screener:screen_overnight_setups:155 - Error analyzing ASII.JK for overnight setup: 'float' object is not callable
+2025-08-11 17:47:32 | DEBUG    | src.analysis.screener:screen_overnight_setups:155 - Error analyzing KLBF.JK for overnight setup: 'float' object is not callable
+2025-08-11 17:47:32 | DEBUG    | src.analysis.screener:screen_overnight_setups:155 - Error analyzing ADRO.JK for overnight setup: 'float' object is not callable
+2025-08-11 17:47:32 | DEBUG    | src.analysis.screener:screen_overnight_setups:155 - Error analyzing BBTN.JK for overnight setup: 'float' object is not callable
+2025-08-11 17:47:32 | DEBUG    | src.analysis.screener:screen_overnight_setups:155 - Error analyzing UNVR.JK for overnight setup: 'float' object is not callable
+2025-08-11 17:47:32 | DEBUG    | src.analysis.screener:screen_overnight_setups:155 - Error analyzing ADMR.JK for overnight setup: 'float' object is not callable
+2025-08-11 17:47:33 | DEBUG    | src.analysis.screener:screen_overnight_setups:155 - Error analyzing INTP.JK for overnight setup: 'float' object is not callable
+2025-08-11 17:47:33 | DEBUG    | src.analysis.screener:screen_overnight_setups:155 - Error analyzing PGEO.JK for overnight setup: 'float' object is not callable
+2025-08-11 17:47:33 | DEBUG    | src.analysis.screener:screen_overnight_setups:155 - Error analyzing MAPI.JK for overnight setup: 'float' object is not callable
+2025-08-11 17:47:33 | DEBUG    | src.analysis.screener:screen_overnight_setups:155 - Error analyzing BRPT.JK for overnight setup: 'float' object is not callable
+2025-08-11 17:47:33 | DEBUG    | src.analysis.screener:screen_overnight_setups:155 - Error analyzing BBCA.JK for overnight setup: 'float' object is not callable
+2025-08-11 17:47:33 | DEBUG    | src.analysis.screener:screen_overnight_setups:155 - Error analyzing MEDC.JK for overnight setup: 'float' object is not callable
+2025-08-11 17:47:33 | DEBUG    | src.analysis.screener:screen_overnight_setups:155 - Error analyzing BRIS.JK for overnight setup: 'float' object is not callable
+2025-08-11 17:47:33 | DEBUG    | src.analysis.screener:screen_overnight_setups:155 - Error analyzing PGAS.JK for overnight setup: 'float' object is not callable
+2025-08-11 17:47:33 | DEBUG    | src.analysis.screener:screen_overnight_setups:155 - Error analyzing CPIN.JK for overnight setup: 'float' object is not callable
+2025-08-11 17:47:33 | DEBUG    | src.analysis.screener:screen_overnight_setups:155 - Error analyzing CTRA.JK for overnight setup: 'float' object is not callable
+2025-08-11 17:47:33 | DEBUG    | src.analysis.screener:screen_overnight_setups:155 - Error analyzing BMRI.JK for overnight setup: 'float' object is not callable
+2025-08-11 17:47:33 | DEBUG    | src.analysis.screener:screen_overnight_setups:155 - Error analyzing ANTM.JK for overnight setup: 'float' object is not callable
+2025-08-11 17:47:33 | DEBUG    | src.analysis.screener:screen_overnight_setups:155 - Error analyzing INKP.JK for overnight setup: 'float' object is not callable
+2025-08-11 17:47:33 | DEBUG    | src.analysis.screener:screen_overnight_setups:155 - Error analyzing ICBP.JK for overnight setup: 'float' object is not callable
+2025-08-11 17:47:33 | DEBUG    | src.analysis.screener:screen_overnight_setups:155 - Error analyzing INCO.JK for overnight setup: 'float' object is not callable
+2025-08-11 17:47:33 | DEBUG    | src.analysis.screener:screen_overnight_setups:155 - Error analyzing TLKM.JK for overnight setup: 'float' object is not callable
+2025-08-11 17:47:34 | DEBUG    | src.analysis.screener:screen_overnight_setups:155 - Error analyzing JSMR.JK for overnight setup: 'float' object is not callable
+2025-08-11 17:47:34 | DEBUG    | src.analysis.screener:screen_overnight_setups:155 - Error analyzing AKRA.JK for overnight setup: 'float' object is not callable
+2025-08-11 17:47:34 | DEBUG    | src.analysis.screener:screen_overnight_setups:155 - Error analyzing EXCL.JK for overnight setup: 'float' object is not callable
+2025-08-11 17:47:34 | DEBUG    | src.analysis.screener:screen_overnight_setups:155 - Error analyzing AMRT.JK for overnight setup: 'float' object is not callable
+2025-08-11 17:47:34 | DEBUG    | src.analysis.screener:screen_overnight_setups:155 - Error analyzing JPFA.JK for overnight setup: 'float' object is not callable
+2025-08-11 17:47:34 | DEBUG    | src.analysis.screener:screen_overnight_setups:155 - Error analyzing ISAT.JK for overnight setup: 'float' object is not callable
+2025-08-11 17:47:34 | DEBUG    | src.analysis.screener:screen_overnight_setups:155 - Error analyzing INDF.JK for overnight setup: 'float' object is not callable
+2025-08-11 17:47:34 | DEBUG    | src.analysis.screener:screen_overnight_setups:155 - Error analyzing ITMG.JK for overnight setup: 'float' object is not callable
+2025-08-11 17:47:34 | DEBUG    | src.analysis.screener:screen_overnight_setups:155 - Error analyzing SMGR.JK for overnight setup: 'float' object is not callable
+2025-08-11 17:47:34 | DEBUG    | src.analysis.screener:screen_overnight_setups:155 - Error analyzing BBNI.JK for overnight setup: 'float' object is not callable
+2025-08-11 17:47:34 | DEBUG    | src.analysis.screener:screen_overnight_setups:155 - Error analyzing UNTR.JK for overnight setup: 'float' object is not callable
+2025-08-11 17:47:34 | DEBUG    | src.analysis.screener:screen_overnight_setups:155 - Error analyzing BBRI.JK for overnight setup: 'float' object is not callable
+2025-08-11 17:47:34 | DEBUG    | src.analysis.screener:screen_overnight_setups:155 - Error analyzing PTBA.JK for overnight setup: 'float' object is not callable
+2025-08-11 17:47:34 | DEBUG    | src.analysis.screener:screen_overnight_setups:155 - Error analyzing MDKA.JK for overnight setup: 'float' object is not callable
+2025-08-11 17:47:34 | INFO     | src.analysis.screener:screen_overnight_setups:160 - Found 0 overnight setup signals
+2025-08-11 17:47:34 | INFO     | src.scheduler.workflows:run_overnight_screening:384 - Overnight screening completed: 0 signals found
+2025-08-11 17:47:34 | INFO     | src.utils.logger:__exit__:185 - Completed overnight_screening in 25.44s
+2025-08-11 17:47:34 | INFO     | __main__:main:634 - Application completed successfully
