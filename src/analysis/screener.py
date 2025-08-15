@@ -113,9 +113,13 @@ class StockScreener:
 
         for symbol, stock_data in stocks_data.items():
             try:
+                logger.info(f"Analyzing {symbol} for intraday rebound opportunities...")
                 signal = self._analyze_intraday_rebound(symbol, stock_data, account_balance)
                 if signal:
+                    logger.info(f"Found intraday signal for {symbol} with confidence {signal.confidence_score:.2f}")
                     signals.append(signal)
+                else:
+                    logger.debug(f"No intraday signal generated for {symbol}")
             except Exception as e:
                 logger.debug(f"Error analyzing {symbol} for intraday rebound: {e}")
 
@@ -148,9 +152,13 @@ class StockScreener:
 
         for symbol, stock_data in stocks_data.items():
             try:
+                logger.info(f"Analyzing {symbol} for overnight setup opportunities...")
                 signal = self._analyze_overnight_setup(symbol, stock_data, account_balance)
                 if signal:
+                    logger.info(f"Found overnight signal for {symbol} with confidence {signal.confidence_score:.2f}")
                     signals.append(signal)
+                else:
+                    logger.debug(f"No overnight signal generated for {symbol} - Conditions not met")
             except Exception as e:
                 logger.debug(f"Error analyzing {symbol} for overnight setup: {e}")
 
@@ -173,12 +181,18 @@ class StockScreener:
             return None
 
         # Get technical analysis
-        indicators = get_trading_signals(stock_data.daily_data, {
-            'rsi_period': self.config.indicators.rsi_period,
-            'atr_period': self.config.indicators.atr_period,
-            'ema_periods': self.config.indicators.ema_periods,
-            'vwap_enabled': self.config.enable_vwap_filter
-        })
+        try:
+            logger.debug(f"Calculating indicators for {symbol}...")
+            indicators = get_trading_signals(stock_data.daily_data, {
+                'rsi_period': self.config.indicators.rsi_period,
+                'atr_period': self.config.indicators.atr_period,
+                'ema_periods': self.config.indicators.ema_periods,
+                'vwap_enabled': self.config.enable_vwap_filter
+            })
+            logger.debug(f"Indicators result for {symbol}: {indicators}")
+        except Exception as e:
+            logger.error(f"Error calculating indicators for {symbol}: {e}")
+            return None
 
         if 'error' in indicators:
             return None
@@ -222,12 +236,18 @@ class StockScreener:
             return None
 
         # Get technical analysis
-        indicators = get_trading_signals(stock_data.daily_data, {
-            'rsi_period': self.config.indicators.rsi_period,
-            'atr_period': self.config.indicators.atr_period,
-            'ema_periods': self.config.indicators.ema_periods,
-            'vwap_enabled': self.config.enable_vwap_filter
-        })
+        try:
+            logger.debug(f"Calculating indicators for {symbol}...")
+            indicators = get_trading_signals(stock_data.daily_data, {
+                'rsi_period': self.config.indicators.rsi_period,
+                'atr_period': self.config.indicators.atr_period,
+                'ema_periods': self.config.indicators.ema_periods,
+                'vwap_enabled': self.config.enable_vwap_filter
+            })
+            logger.debug(f"Indicators result for {symbol}: {indicators}")
+        except Exception as e:
+            logger.error(f"Error calculating indicators for {symbol}: {e}")
+            return None
 
         if 'error' in indicators:
             return None
@@ -260,14 +280,15 @@ class StockScreener:
 
     def _passes_basic_filters(self, stock_data: StockData) -> bool:
         """Check if stock passes basic filtering criteria."""
-
         # Price range filter
         current_price = stock_data.current_price
         if not (self.criteria.min_price <= current_price <= self.criteria.max_price):
+            logger.debug(f"Stock {stock_data.symbol} failed price range filter: {current_price} not in [{self.criteria.min_price}, {self.criteria.max_price}]")
             return False
 
         # Volume filter
         if stock_data.daily_volume < self.criteria.min_volume:
+            logger.debug(f"Stock {stock_data.symbol} failed volume filter: {stock_data.daily_volume:,} < {self.criteria.min_volume:,}")
             return False
 
         # Market cap filter (if specified)
@@ -282,6 +303,7 @@ class StockScreener:
 
         # Ticker exclusion
         if stock_data.symbol in self.criteria.exclude_tickers:
+            logger.debug(f"Stock {stock_data.symbol} is in exclusion list")
             return False
 
         return True
@@ -295,6 +317,8 @@ class StockScreener:
 
         conditions = {}
         current_price = stock_data.current_price
+        symbol = stock_data.symbol
+        logger.debug(f"Evaluating intraday conditions for {symbol}")
 
         # Basic conditions
         conditions['price_range'] = (
@@ -303,39 +327,40 @@ class StockScreener:
         conditions['volume_adequate'] = (
             stock_data.daily_volume >= self.criteria.min_volume
         )
-        conditions['not_excluded'] = stock_data.symbol not in self.criteria.exclude_tickers
+        conditions['not_excluded'] = symbol not in self.criteria.exclude_tickers
+
+        logger.debug(f"{symbol} basic conditions: price_range={conditions['price_range']}, "
+                    f"volume_adequate={conditions['volume_adequate']}, "
+                    f"not_excluded={conditions['not_excluded']}")
 
         # Volume spike condition
-        avg_volume = stock_data.average_volume(20)
+        avg_volume = stock_data.average_volume(20)  # Calculate 20-period average volume
         conditions['volume_spike'] = (
             stock_data.daily_volume >= avg_volume * self.criteria.volume_spike_threshold
         )
 
         # RSI conditions
-        rsi_data = indicators.get('individual_signals', {}).get('rsi')
-        if rsi_data:
-            conditions['oversold_rsi'] = rsi_data in ['buy', 'strong_buy']
-            conditions['rsi_bullish'] = rsi_data in ['bullish', 'buy', 'strong_buy']
-        else:
-            conditions['oversold_rsi'] = False
-            conditions['rsi_bullish'] = False
+        rsi_signal = indicators.get('individual_signals', {}).get('rsi')
+        logger.debug(f"RSI signal for {symbol}: {rsi_signal}")
+        conditions['oversold_rsi'] = rsi_signal in ['buy', 'strong_buy']
+        conditions['extremely_oversold'] = rsi_signal == 'strong_buy'
+        conditions['rsi_bullish'] = rsi_signal in ['bullish', 'buy', 'strong_buy']
+
+        logger.debug(f"{symbol} RSI conditions: oversold={conditions['oversold_rsi']}, "
+                    f"extremely_oversold={conditions['extremely_oversold']}, "
+                    f"bullish={conditions['rsi_bullish']}")
 
         # EMA trend conditions
-        ema_data = indicators.get('individual_signals', {}).get('ema')
-        if ema_data:
-            conditions['ema_uptrend'] = ema_data in ['bullish', 'strong_bullish', 'weak_bullish']
-            conditions['ema_strong'] = ema_data in ['strong_bullish']
-        else:
-            conditions['ema_uptrend'] = False
-            conditions['ema_strong'] = False
+        ema_signal = indicators.get('individual_signals', {}).get('ema')
+        logger.debug(f"EMA signal for {stock_data.symbol}: {ema_signal}")
+        conditions['ema_uptrend'] = ema_signal in ['bullish', 'strong_bullish', 'weak_bullish']
+        conditions['ema_strong'] = ema_signal == 'strong_bullish'
 
         # VWAP conditions (if enabled)
         if self.config.enable_vwap_filter:
-            vwap_data = indicators.get('individual_signals', {}).get('vwap')
-            if vwap_data:
-                conditions['near_vwap'] = vwap_data in ['bullish', 'neutral']
-            else:
-                conditions['near_vwap'] = True  # Default to true if no VWAP data
+            vwap_signal = indicators.get('individual_signals', {}).get('vwap')
+            logger.debug(f"VWAP signal for {stock_data.symbol}: {vwap_signal}")
+            conditions['near_vwap'] = vwap_signal in ['bullish', 'neutral'] if vwap_signal else True
         else:
             conditions['near_vwap'] = True
 
@@ -355,6 +380,8 @@ class StockScreener:
 
         conditions = {}
         current_price = stock_data.current_price
+        symbol = stock_data.symbol
+        logger.debug(f"Evaluating overnight conditions for {symbol}")
 
         # Basic conditions
         conditions['price_range'] = (
@@ -363,34 +390,40 @@ class StockScreener:
         conditions['volume_adequate'] = (
             stock_data.daily_volume >= self.criteria.min_volume
         )
-        conditions['not_excluded'] = stock_data.symbol not in self.criteria.exclude_tickers
+        conditions['not_excluded'] = symbol not in self.criteria.exclude_tickers
+
+        logger.debug(f"{symbol} basic conditions: price_range={conditions['price_range']}, "
+                    f"volume_adequate={conditions['volume_adequate']}, "
+                    f"not_excluded={conditions['not_excluded']}")
 
         # Volume condition (higher volume on decline preferred)
-        avg_volume = stock_data.average_volume(20)
+        avg_volume = stock_data.average_volume(20)  # Calculate 20-period average volume
         conditions['high_volume'] = (
             stock_data.daily_volume >= avg_volume * 1.2  # 20% above average
         )
 
         # RSI oversold condition (critical for overnight)
-        rsi_data = indicators.get('individual_signals', {}).get('rsi')
-        if rsi_data:
-            conditions['oversold_rsi'] = rsi_data in ['buy', 'strong_buy']
-            conditions['extremely_oversold'] = rsi_data == 'strong_buy'
-        else:
-            conditions['oversold_rsi'] = False
-            conditions['extremely_oversold'] = False
+        rsi_signal = indicators.get('individual_signals', {}).get('rsi')
+        logger.debug(f"RSI signal for {symbol}: {rsi_signal}")
+        conditions['oversold_rsi'] = rsi_signal in ['buy', 'strong_buy']
+        conditions['extremely_oversold'] = rsi_signal == 'strong_buy'
+
+        logger.debug(f"{symbol} RSI conditions: oversold={conditions['oversold_rsi']}, "
+                    f"extremely_oversold={conditions['extremely_oversold']}")
 
         # Decline conditions
         daily_change_pct = stock_data.daily_change_pct
         conditions['significant_decline'] = daily_change_pct <= -2.0
         conditions['severe_decline'] = daily_change_pct <= -4.0
 
+        logger.debug(f"{symbol} decline conditions: daily_change={daily_change_pct:.2f}%, "
+                    f"significant={conditions['significant_decline']}, "
+                    f"severe={conditions['severe_decline']}")
+
         # EMA support levels
-        ema_data = indicators.get('individual_signals', {}).get('ema')
-        if ema_data:
-            conditions['near_ema_support'] = ema_data in ['weak_bullish', 'neutral']
-        else:
-            conditions['near_ema_support'] = False
+        ema_signal = indicators.get('individual_signals', {}).get('ema')
+        logger.debug(f"EMA signal for {stock_data.symbol}: {ema_signal}")
+        conditions['near_ema_support'] = ema_signal in ['weak_bullish', 'neutral']
 
         # Quality stock indicators
         conditions['quality_stock'] = (
@@ -399,11 +432,9 @@ class StockScreener:
 
         # VWAP deviation (should be below for oversold)
         if self.config.enable_vwap_filter:
-            vwap_data = indicators.get('individual_signals', {}).get('vwap')
-            if vwap_data:
-                conditions['below_vwap'] = vwap_data in ['bearish', 'strong_bearish']
-            else:
-                conditions['below_vwap'] = False
+            vwap_signal = indicators.get('individual_signals', {}).get('vwap')
+            logger.debug(f"VWAP signal for {stock_data.symbol}: {vwap_signal}")
+            conditions['below_vwap'] = vwap_signal in ['bearish', 'strong_bearish'] if vwap_signal else False
         else:
             conditions['below_vwap'] = True
 
@@ -494,275 +525,3 @@ class StockScreener:
             symbol=symbol,
             signal_type=signal_type,
             timestamp=datetime.now(),
-            entry_price=current_price,
-            entry_reasoning=reasoning,
-            risk_params=risk_params,
-            confidence_score=confidence_score,
-            risk_level=risk_level,
-            context=context,
-            status=SignalStatus.ACTIVE
-        )
-
-        # Add position sizing
-        signal.update_position_sizing(
-            account_balance,
-            self.config.risk_management.max_risk_per_trade
-        )
-
-        # Add tags based on conditions
-        signal = self._add_signal_tags(signal, conditions, indicators)
-
-        # Set expiration (intraday signals expire at market close)
-        if signal_type == SignalType.INTRADAY_REBOUND:
-            signal.expires_at = datetime.now().replace(hour=15, minute=0, second=0, microsecond=0)
-        else:
-            signal.expires_at = datetime.now() + timedelta(hours=18)  # Next morning
-
-        return signal
-
-    def _calculate_risk_parameters(
-        self,
-        stock_data: StockData,
-        signal_type: SignalType,
-        indicators: Dict
-    ) -> RiskParameters:
-        """Calculate risk parameters including stop loss and take profit levels."""
-
-        current_price = stock_data.current_price
-
-        # Get ATR for dynamic risk calculation
-        atr_value = 0.0
-        if 'atr' in indicators and 'current_atr' in indicators['atr']:
-            atr_value = indicators['atr']['current_atr']
-
-        # Calculate stop loss and take profit based on strategy
-        if self.config.enable_atr_tp_sl and atr_value > 0:
-            # ATR-based calculation
-            if signal_type == SignalType.INTRADAY_REBOUND:
-                stop_loss = current_price - (atr_value * 1.5)
-                tp1_price = current_price + (atr_value * 2.0)
-                tp2_price = current_price + (atr_value * 3.0)
-            else:  # Overnight setup
-                stop_loss = current_price - (atr_value * 2.0)
-                tp1_price = current_price + (atr_value * 3.0)
-                tp2_price = current_price + (atr_value * 4.5)
-        else:
-            # Percentage-based calculation
-            if signal_type == SignalType.INTRADAY_REBOUND:
-                stop_loss = current_price * 0.993  # -0.7%
-                tp1_price = current_price * 1.015  # +1.5%
-                tp2_price = current_price * 1.025  # +2.5%
-            else:  # Overnight setup
-                stop_loss = current_price * 0.98   # -2%
-                tp1_price = current_price * 1.025  # +2.5%
-                tp2_price = current_price * 1.04   # +4%
-
-        # Create take profit levels
-        tp_levels = [
-            TakeProfitLevel(
-                price=tp1_price,
-                percentage=60.0,
-                reasoning="First target - partial profit taking"
-            ),
-            TakeProfitLevel(
-                price=tp2_price,
-                percentage=40.0,
-                reasoning="Second target - remaining position"
-            )
-        ]
-
-        # Calculate risk metrics
-        risk_amount = abs(current_price - stop_loss)
-        potential_reward = tp1_price - current_price  # Based on first TP
-        risk_reward_ratio = potential_reward / risk_amount if risk_amount > 0 else 0
-
-        return RiskParameters(
-            stop_loss=stop_loss,
-            take_profit_levels=tp_levels,
-            risk_amount=risk_amount,
-            potential_reward=potential_reward,
-            risk_reward_ratio=risk_reward_ratio,
-            atr_multiplier=1.5 if signal_type == SignalType.INTRADAY_REBOUND else 2.0
-        )
-
-    def _create_signal_context(
-        self,
-        stock_data: StockData,
-        indicators: Dict,
-        conditions: Dict[str, bool]
-    ) -> SignalContext:
-        """Create signal context with market and technical information."""
-
-        # Determine market condition
-        daily_change = stock_data.daily_change_pct
-        if abs(daily_change) > 3:
-            market_condition = "volatile"
-        elif abs(daily_change) > 1:
-            market_condition = "normal"
-        else:
-            market_condition = "quiet"
-
-        # Volume analysis
-        volume_ratio = stock_data.volume_ratio
-        if volume_ratio > 2.0:
-            volume_analysis = "high"
-        elif volume_ratio > 1.2:
-            volume_analysis = "above_average"
-        else:
-            volume_analysis = "normal"
-
-        # Get technical values
-        rsi_value = None
-        if 'rsi' in indicators and 'current_rsi' in indicators['rsi']:
-            rsi_value = indicators['rsi']['current_rsi']
-
-        ema_alignment = None
-        if 'ema' in indicators and 'trend_analysis' in indicators['ema']:
-            ema_alignment = indicators['ema']['trend_analysis'].get('ema_alignment') == 'bullish'
-
-        return SignalContext(
-            market_condition=market_condition,
-            volume_analysis=volume_analysis,
-            rsi=rsi_value,
-            ema_alignment=ema_alignment,
-            technical_setup=self._generate_technical_setup_description(conditions)
-        )
-
-    def _generate_reasoning(self, conditions: Dict[str, bool], indicators: Dict) -> str:
-        """Generate human-readable reasoning for the signal."""
-
-        reasons = []
-
-        # RSI conditions
-        if conditions.get('oversold_rsi'):
-            rsi_val = indicators.get('rsi', {}).get('current_rsi', 'N/A')
-            reasons.append(f"RSI oversold ({rsi_val})")
-
-        # Volume conditions
-        if conditions.get('volume_spike'):
-            reasons.append("Volume spike above average")
-        elif conditions.get('high_volume'):
-            reasons.append("High volume")
-
-        # Price movement
-        if conditions.get('significant_decline'):
-            reasons.append("Significant price decline")
-        elif conditions.get('positive_momentum'):
-            reasons.append("Positive momentum")
-
-        # EMA conditions
-        if conditions.get('ema_uptrend'):
-            reasons.append("EMA uptrend alignment")
-        elif conditions.get('near_ema_support'):
-            reasons.append("Near EMA support")
-
-        # Quality indicators
-        if conditions.get('quality_stock'):
-            reasons.append("Quality large-cap stock")
-
-        return "; ".join(reasons) if reasons else "Technical setup criteria met"
-
-    def _generate_technical_setup_description(self, conditions: Dict[str, bool]) -> str:
-        """Generate technical setup description."""
-
-        if conditions.get('oversold_rsi') and conditions.get('ema_uptrend'):
-            return "Oversold bounce in uptrend"
-        elif conditions.get('oversold_rsi') and conditions.get('significant_decline'):
-            return "Oversold reversal setup"
-        elif conditions.get('volume_spike') and conditions.get('positive_momentum'):
-            return "Volume breakout"
-        else:
-            return "Multi-factor technical setup"
-
-    def _determine_risk_level(self, confidence_score: float, conditions: Dict[str, bool]) -> RiskLevel:
-        """Determine risk level based on confidence and conditions."""
-
-        if confidence_score >= 0.8:
-            return RiskLevel.LOW
-        elif confidence_score >= 0.7:
-            return RiskLevel.MEDIUM
-        else:
-            return RiskLevel.HIGH
-
-    def _add_signal_tags(
-        self,
-        signal: TradingSignal,
-        conditions: Dict[str, bool],
-        indicators: Dict
-    ) -> TradingSignal:
-        """Add relevant tags to the signal."""
-
-        tags = []
-
-        # RSI tags
-        if conditions.get('extremely_oversold'):
-            tags.append("extremely_oversold")
-        elif conditions.get('oversold_rsi'):
-            tags.append("oversold")
-
-        # Volume tags
-        if conditions.get('volume_spike'):
-            tags.append("volume_spike")
-
-        # Quality tags
-        if conditions.get('quality_stock'):
-            tags.append("large_cap")
-
-        # Technical tags
-        if conditions.get('ema_strong'):
-            tags.append("strong_trend")
-
-        # Risk tags
-        if signal.risk_params.risk_reward_ratio >= 3.0:
-            tags.append("high_rr")
-
-        for tag in tags:
-            signal.add_tag(tag)
-
-        return signal
-
-    def get_screening_summary(self, signals: List[TradingSignal]) -> Dict:
-        """Generate summary statistics for screening results."""
-
-        if not signals:
-            return {
-                'total_signals': 0,
-                'avg_confidence': 0,
-                'risk_distribution': {},
-                'signal_types': {}
-            }
-
-        # Basic statistics
-        total_signals = len(signals)
-        avg_confidence = sum(s.confidence_score for s in signals) / total_signals
-
-        # Risk distribution
-        risk_distribution = {}
-        for signal in signals:
-            risk_level = signal.risk_level.value
-            risk_distribution[risk_level] = risk_distribution.get(risk_level, 0) + 1
-
-        # Signal type distribution
-        signal_types = {}
-        for signal in signals:
-            signal_type = signal.signal_type.value
-            signal_types[signal_type] = signal_types.get(signal_type, 0) + 1
-
-        # Average risk-reward ratio
-        avg_rr_ratio = sum(s.risk_params.risk_reward_ratio for s in signals) / total_signals
-
-        return {
-            'total_signals': total_signals,
-            'avg_confidence': round(avg_confidence, 3),
-            'avg_risk_reward_ratio': round(avg_rr_ratio, 2),
-            'risk_distribution': risk_distribution,
-            'signal_types': signal_types,
-            'top_signals': [
-                {
-                    'symbol': s.symbol,
-                    'confidence': s.confidence_score,
-                    'risk_reward': s.risk_params.risk_reward_ratio
-                }
-                for s in signals[:5]  # Top 5 signals
-            ]
-        }
